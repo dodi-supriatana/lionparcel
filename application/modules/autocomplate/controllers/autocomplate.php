@@ -30,7 +30,7 @@ class autocomplate extends MX_Controller
         // $word =  $this->uri->segment(3);
         // echo $word;
         // die();
-        $data = $this->db->query("SELECT w.3lc,CONCAT(w.kecamatan, ', ', w.type,'', w.kab_kota, ', ',w.provinsi) as datanya FROM wilayah w WHERE w.kecamatan like '".$word."%' GROUP BY kecamatan limit 10 ")->result();
+        $data = $this->db->query("SELECT w.3lc as id,CONCAT(w.kecamatan, ', ', w.type,'', w.kab_kota, ', ',w.provinsi) as name FROM wilayah w WHERE w.kecamatan like '".$word."%' GROUP BY kecamatan limit 10 ")->result();
         $this->djson(
 			array(
 				"status"=>"200",
