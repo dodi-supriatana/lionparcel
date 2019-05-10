@@ -14,7 +14,7 @@
 
 
 RewriteEngine on
-RewriteBase /stp_tower
+RewriteBase /lionparcel_api
 #RewriteBase /
 
  

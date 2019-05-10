@@ -15,11 +15,27 @@ class autocomplate extends MX_Controller
         // $this->load->model('mprojectlist');
     }
 
-    public function index()
+    private function djson($value = array())
     {
-        $connect=array("connecting"=>"babi");
-        echo json_encode($connect); 
+        $json = json_encode($value);
+        $this->output->set_header("Access-Control-Allow-Origin: *");
+        $this->output->set_header("Access-Control-Expose-Headers: Access-Control-Allow-Origin");
+        $this->output->set_status_header(200);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output($json);
     }
 
-
+    public function get_autocomplate($word=null)
+    {
+        // $word =  $this->uri->segment(3);
+        // echo $word;
+        // die();
+        $data = $this->db->query("SELECT w.3lc,CONCAT(w.kecamatan, ', ', w.type,'', w.kab_kota, ', ',w.provinsi) as datanya FROM wilayah w WHERE w.kecamatan like '".$word."%' GROUP BY kecamatan limit 10 ")->result();
+        $this->djson(
+			array(
+				"status"=>"200",
+				"data"=>$data
+			)
+		);
+    }
 }
