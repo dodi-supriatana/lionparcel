@@ -75,15 +75,15 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	// 'hostname' => '103.103.192.212',
-	// 'username' => 'develop',
-	// 'password' => 'D3v3l0p3r',
-	// 'database' => 'stp_ver2',
+	'hostname' => '103.103.192.212',
+	'username' => 'develop',
+	'password' => 'D3v3l0p3r',
+	'database' => 'lionparcel',
 
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'lion_parcel',
+	// 'hostname' => 'localhost',
+	// 'username' => 'root',
+	// 'password' => '',
+	// 'database' => 'lion_parcel',
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
