@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class connection extends MX_Controller
+class autocomplate extends MX_Controller
 {
 
     function __construct()
@@ -17,7 +17,7 @@ class connection extends MX_Controller
 
     public function index()
     {
-        $connect=array("connecting"=>"connected");
+        $connect=array("connecting"=>"babi");
         echo json_encode($connect); 
     }
 
