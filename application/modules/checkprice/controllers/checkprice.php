@@ -25,9 +25,12 @@ class checkprice extends MX_Controller
         $this->output->set_output($json);
     }
 
-    public function get_checkprice($origin=null,$destinance=null)
+    public function get_checkprice()
     {
 
+        $origin=$this->input->post('origin');
+        $destinance=$this->input->post('destinance');
+        
         // search data
         $data = $this->db->query("SELECT
         rt.rate_id,
