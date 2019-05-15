@@ -25,10 +25,11 @@ class detailagen extends MX_Controller
         $this->output->set_output($json);
     }
 
-    public function get_detailagen($id_agen = null)
+    public function get_detailagen()
     {
 
         // search data
+        $id_agen=$this->input->post('id_agen');
         $data = $this->db->query("SELECT * FROM tabel_agen WHERE id_agent='" . $id_agen . "'")->result();
         $this->djson(
             array(
