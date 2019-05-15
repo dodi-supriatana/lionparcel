@@ -34,7 +34,7 @@ class autocomplate extends MX_Controller
         $this->djson(
 			array(
 				"status"=>"200",
-				"data"=>$query->num_rows()
+				"data"=>$query->result()
 			)
 		);
     }
