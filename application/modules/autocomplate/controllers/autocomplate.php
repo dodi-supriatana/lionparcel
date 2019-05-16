@@ -27,15 +27,24 @@ class autocomplate extends MX_Controller
 
     public function get_autocomplate()
     {
-        $word=$this->input->post('word');
-        $query = $this->db->query("SELECT w.3lc as id,CONCAT(w.kecamatan, ', ', w.type,'', w.kab_kota, ', ',w.provinsi) as name FROM wilayah w WHERE w.kecamatan like '".$word."%' GROUP BY kecamatan limit 10 ");
-        
-        
-        $this->djson(
-			array(
-				"status"=>"200",
-				"data"=>$query->result()
-			)
-		);
+        $word = $this->input->post('word');
+        if (!empty($word)) {
+            $query = $this->db->query("SELECT w.3lc as id,CONCAT(w.kecamatan, ', ', w.type,'', w.kab_kota, ', ',w.provinsi) as name FROM wilayah w WHERE w.kecamatan like '" . $word . "%' GROUP BY kecamatan limit 10 ");
+
+
+            $this->djson(
+                array(
+                    "status" => "200",
+                    "data" => $query->result()
+                )
+            );
+        }else{
+            $this->djson(
+                array(
+                    "status" => "200",
+                    "data" => []
+                )
+            );
+        }
     }
 }
