@@ -30,6 +30,7 @@ class checkprice extends MX_Controller
 
         $origin=$this->input->post('origin');
         $destinance=$this->input->post('destinance');
+        $weight=$this->input->post('weight');
         
         // search data
         $data = $this->db->query("SELECT
@@ -38,7 +39,8 @@ class checkprice extends MX_Controller
             rt.origin_city dari,
             rt.destination_city AS ke,
             rt.product,
-            total 
+            date_format(created_date,' %d %M %Y')  as last_update,
+            total * ".$weight."  as final_price
         FROM
             rate_tabel rt 
         WHERE
