@@ -29,8 +29,8 @@ class list_agen extends MX_Controller
     {
 
         // search data
-        $id_agen=$this->input->post('lot');
-        $id_agen=$this->input->post('lot');
+        $id_agen = $this->input->post('lot');
+        $id_agen = $this->input->post('lot');
         $data = $this->db->query("SELECT * FROM tabel_agen ")->result();
         $this->djson(
             array(
@@ -41,37 +41,33 @@ class list_agen extends MX_Controller
     }
 
 
-    public function searchagenbykota(){
-        
-    }
+    public function searchagenbykota()
+    { }
 
 
-    public function searchbycoordinate($lat1 = '32.9697', $lon1 = '-96.80322')
-    {
-        $data_agen = $this->db->query("SELECT id_agent,latitude,longitude FROM tabel_agen")->result();
+    public function searchbycoordinate()
+    { 
+        $user_latitude= $this->input->post('user_latitude');
+        $user_longitude=$this->input->post('user_longitude');
+
+        if (!empty($user_latitude) and !empty($user_longitude)) {
+            
+            $data=$this->db->query("SELECT tabel_agen.*, 
+            (6371 * acos(cos(radians(".$user_latitude.")) 
+            * cos(radians(latitude)) * cos(radians(longitude) 
+            - radians(".$user_longitude.")) + sin(radians(".$user_latitude.")) 
+            * sin(radians(latitude)))) AS jarak 
+            FROM tabel_agen 
+            HAVING jarak < 10 ORDER BY jarak")->result();
+        }else{
+            $data="please input data user latitude and longitude ";
+        }
 
         $this->djson(
             array(
                 "status" => "200",
-                "data" => $data_agen
+                "data" => $data
             )
         );
-    }
-    public function calculate($lat1 = '32.9697', $lon1 = '-96.80322', $lat2 = '29.46786', $lon2 = '-98.53506', $unit = 'm')
-    {
-        if (($lat1 == $lat2) && ($lon1 == $lon2)) {
-            return 0;
-        } else {
-            $theta = $lon1 - $lon2;
-            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-            $dist = acos($dist);
-            $dist = rad2deg($dist);
-            $miles = $dist * 60 * 1.1515;
-            $unit = strtoupper($unit);
-
-            $data = ($miles * 1.609344);
-            echo $data;
-            die();
-        }
     }
 }
