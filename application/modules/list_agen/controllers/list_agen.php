@@ -58,9 +58,10 @@ class list_agen extends MX_Controller
             - radians(" . $user_longitude . ")) + sin(radians(" . $user_latitude . ")) 
             * sin(radians(latitude)))) AS jarak 
             FROM tabel_agen 
-            HAVING jarak < 10 ORDER BY jarak")->result();
+            HAVING jarak < 10 ORDER BY jarak");
             $data = array();
-            foreach ($query as $datas) {
+            $lenght=$query->num_rows();
+            foreach ($query->result() as $datas) {
 
                 $row = array(
                     'id_agent' => $datas->id_agent,
@@ -104,6 +105,7 @@ class list_agen extends MX_Controller
         $this->djson(
             array(
                 "status" => "200",
+                "lenght" =>$lenght,
                 "data" => $data
             )
         );
@@ -126,10 +128,11 @@ class list_agen extends MX_Controller
                     - radians(" . $lng . ")) + sin(radians(" . $lat . ")) 
                     * sin(radians(latitude)))) AS jarak 
                     FROM tabel_agen 
-                    HAVING jarak < 10 ORDER BY jarak")->result();
+                    HAVING jarak < 10 ORDER BY jarak");
 
             $data = array();
-            foreach ($query as $datas) {
+            $lenght=$query->num_rows();
+            foreach ($query ->result() as $datas) {
 
                 $row = array(
                     'id_agent' => $datas->id_agent,
@@ -155,6 +158,7 @@ class list_agen extends MX_Controller
         $this->djson(
             array(
                 "status" => "200",
+                "lenght" =>$lenght,
                 "data" => $data
             )
         );
