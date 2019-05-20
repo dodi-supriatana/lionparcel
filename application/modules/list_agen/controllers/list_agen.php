@@ -46,23 +46,51 @@ class list_agen extends MX_Controller
 
 
     public function searchbycoordinate()
-    { 
-        $user_latitude= $this->input->post('user_latitude');
-        $user_longitude=$this->input->post('user_longitude');
+    {
+        $user_latitude = $this->input->post('user_latitude');
+        $user_longitude = $this->input->post('user_longitude');
 
         if (!empty($user_latitude) and !empty($user_longitude)) {
-            
-            $data=$this->db->query("SELECT tabel_agen.*, 
-            (6371 * acos(cos(radians(".$user_latitude.")) 
+
+            $data = $this->db->query("SELECT tabel_agen.*, 
+            (6371 * acos(cos(radians(" . $user_latitude . ")) 
             * cos(radians(latitude)) * cos(radians(longitude) 
-            - radians(".$user_longitude.")) + sin(radians(".$user_latitude.")) 
+            - radians(" . $user_longitude . ")) + sin(radians(" . $user_latitude . ")) 
             * sin(radians(latitude)))) AS jarak 
             FROM tabel_agen 
             HAVING jarak < 10 ORDER BY jarak")->result();
-        }else{
-            $data="please input data user latitude and longitude ";
+        } else {
+            $data = "please input data user latitude and longitude ";
         }
 
+        $this->djson(
+            array(
+                "status" => "200",
+                "data" => $data
+            )
+        );
+    }
+
+    public function get_lat_long()
+    {
+        $address = $this->input->post('address');
+        $geocode = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$address.'&key=AIzaSyCfY9TPZ31i6nu-oTLQWjuHaIt5dbc86o4&sensor=false');
+        $output = json_decode($geocode);
+        $lat = @$output->results[0]->geometry->location->lat;
+        $lng = @$output->results[0]->geometry->location->lng;
+
+        if (!empty($lat) or !empty($lng)) {
+
+            $data = $this->db->query("SELECT tabel_agen.*, 
+        (6371 * acos(cos(radians(" . $lat . ")) 
+        * cos(radians(latitude)) * cos(radians(longitude) 
+        - radians(" . $lng . ")) + sin(radians(" . $lat . ")) 
+        * sin(radians(latitude)))) AS jarak 
+        FROM tabel_agen 
+        HAVING jarak < 10 ORDER BY jarak")->result();
+        } else {
+            $data = [];
+        }
         $this->djson(
             array(
                 "status" => "200",
