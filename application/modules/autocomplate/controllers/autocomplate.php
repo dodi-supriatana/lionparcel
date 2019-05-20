@@ -63,5 +63,28 @@ class autocomplate extends MX_Controller
         );
     }
 
+    public function get_autocomplate_kecamatan()
+    {
+        $word = $this->input->post('word');
+        if (!empty($word)) {
+            $query = $this->db->query("SELECT w.kecamatan as id,CONCAT(w.kecamatan, ', ', w.type ,' ', w.kab_kota, ', ',w.provinsi) as name FROM wilayah w WHERE CONCAT(w.kecamatan,' ', w.kab_kota, ' ',w.provinsi) like '%" . $word . "%' GROUP BY kecamatan limit 10 ");
+
+
+            $this->djson(
+                array(
+                    "status" => "200",
+                    "data" => $query->result()
+                )
+            );
+        } else {
+            $this->djson(
+                array(
+                    "status" => "200",
+                    "data" => []
+                )
+            );
+        }
+    }
+
    
 }
