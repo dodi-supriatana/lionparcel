@@ -52,13 +52,14 @@ class list_agen extends MX_Controller
 
         if (!empty($user_latitude) and !empty($user_longitude)) {
 
-            $data = $this->db->query("SELECT tabel_agen.*, 
+            $data = $this->db->query("SELECT tabel_agen.*,
             (6371 * acos(cos(radians(" . $user_latitude . ")) 
             * cos(radians(latitude)) * cos(radians(longitude) 
             - radians(" . $user_longitude . ")) + sin(radians(" . $user_latitude . ")) 
             * sin(radians(latitude)))) AS jarak 
             FROM tabel_agen 
             HAVING jarak < 10 ORDER BY jarak")->result();
+            
         } else {
             $data = "please input data user latitude and longitude ";
         }
