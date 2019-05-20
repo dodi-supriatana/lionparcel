@@ -38,7 +38,7 @@ class autocomplate extends MX_Controller
                     "data" => $query->result()
                 )
             );
-        }else{
+        } else {
             $this->djson(
                 array(
                     "status" => "200",
@@ -47,4 +47,21 @@ class autocomplate extends MX_Controller
             );
         }
     }
+
+    public function get_address()
+    {
+        $latitude = $this->input->post('latitude');
+        $longitude = $this->input->post('longitude');;
+        $geocode = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $latitude . ',' . $longitude . '&sensor=false&key=AIzaSyCfY9TPZ31i6nu-oTLQWjuHaIt5dbc86o4&sensor=false');
+        $output = json_decode($geocode);
+        $formattedAddress = @$output->results[0]->formatted_address;
+        $this->djson(
+            array(
+                "status" => "200",
+                "data" => $formattedAddress
+            )
+        );
+    }
+
+   
 }
