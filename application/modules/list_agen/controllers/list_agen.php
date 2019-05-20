@@ -59,28 +59,28 @@ class list_agen extends MX_Controller
             * sin(radians(latitude)))) AS jarak 
             FROM tabel_agen 
             HAVING jarak < 10 ORDER BY jarak")->result();
-            $data=array();
+            $data = array();
             foreach ($query as $datas) {
-             
+
                 $row = array(
                     'id_agent' => $datas->id_agent,
                     'nama_agent' => $datas->nama_agent,
                     'alamat_agent' => $datas->alamat_agent,
-                    'jam_operasional'=>$datas->jam_operasional,
-                    'no_telepon' =>$datas->no_telepon,
+                    'jam_operasional' => $datas->jam_operasional,
+                    'no_telepon' => $datas->no_telepon,
                     'foto_1' => $datas->foto_1,
                     'foto_2' => $datas->foto_2,
                     'foto_3' => $datas->foto_3,
                     'latitude' => (float)$datas->latitude,
                     'longitude' => (float)$datas->longitude,
-                    'status'=>$datas->status,
+                    'status' => $datas->status,
                     'jarak' => $datas->jarak,
                     // 'latitude' => (float)$datas->latitude,
-                    
+
                 );
                 $data[] = $row;
 
-                
+
 
 
                 // $row[] = $datas->nama_agent;
@@ -120,13 +120,35 @@ class list_agen extends MX_Controller
 
         if (!empty($lat) or !empty($lng)) {
 
-            $data = $this->db->query("SELECT tabel_agen.*, 
-        (6371 * acos(cos(radians(" . $lat . ")) 
-        * cos(radians(latitude)) * cos(radians(longitude) 
-        - radians(" . $lng . ")) + sin(radians(" . $lat . ")) 
-        * sin(radians(latitude)))) AS jarak 
-        FROM tabel_agen 
-        HAVING jarak < 10 ORDER BY jarak")->result();
+            $query = $this->db->query("SELECT tabel_agen.*, 
+                    (6371 * acos(cos(radians(" . $lat . ")) 
+                    * cos(radians(latitude)) * cos(radians(longitude) 
+                    - radians(" . $lng . ")) + sin(radians(" . $lat . ")) 
+                    * sin(radians(latitude)))) AS jarak 
+                    FROM tabel_agen 
+                    HAVING jarak < 10 ORDER BY jarak")->result();
+
+            $data = array();
+            foreach ($query as $datas) {
+
+                $row = array(
+                    'id_agent' => $datas->id_agent,
+                    'nama_agent' => $datas->nama_agent,
+                    'alamat_agent' => $datas->alamat_agent,
+                    'jam_operasional' => $datas->jam_operasional,
+                    'no_telepon' => $datas->no_telepon,
+                    'foto_1' => $datas->foto_1,
+                    'foto_2' => $datas->foto_2,
+                    'foto_3' => $datas->foto_3,
+                    'latitude' => (float)$datas->latitude,
+                    'longitude' => (float)$datas->longitude,
+                    'status' => $datas->status,
+                    'jarak' => $datas->jarak,
+                    // 'latitude' => (float)$datas->latitude,
+
+                );
+                $data[] = $row;
+            }
         } else {
             $data = [];
         }
