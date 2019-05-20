@@ -52,14 +52,51 @@ class list_agen extends MX_Controller
 
         if (!empty($user_latitude) and !empty($user_longitude)) {
 
-            $data = $this->db->query("SELECT tabel_agen.*,
+            $query = $this->db->query("SELECT tabel_agen.*,
             (6371 * acos(cos(radians(" . $user_latitude . ")) 
             * cos(radians(latitude)) * cos(radians(longitude) 
             - radians(" . $user_longitude . ")) + sin(radians(" . $user_latitude . ")) 
             * sin(radians(latitude)))) AS jarak 
             FROM tabel_agen 
             HAVING jarak < 10 ORDER BY jarak")->result();
-            
+            $data=array();
+            foreach ($query as $datas) {
+             
+                $row = array(
+                    'id_agent' => $datas->id_agent,
+                    'nama_agent' => $datas->nama_agent,
+                    'alamat_agent' => $datas->alamat_agent,
+                    'jam_operasional'=>$datas->jam_operasional,
+                    'no_telepon' =>$datas->no_telepon,
+                    'foto_1' => $datas->foto_1,
+                    'foto_2' => $datas->foto_2,
+                    'foto_3' => $datas->foto_3,
+                    'latitude' => (float)$datas->latitude,
+                    'longitude' => (float)$datas->longitude,
+                    'status'=>$datas->status,
+                    'jarak' => $datas->jarak,
+                    // 'latitude' => (float)$datas->latitude,
+                    
+                );
+                $data[] = $row;
+
+                
+
+
+                // $row[] = $datas->nama_agent;
+                // $row[] = $datas->alamat_agent;
+                // $row[] = $datas->jam_operasional;
+                // $row[] = $datas->no_telepon;
+                // $row[] = $datas->foto_1;
+                // $row[] = $datas->foto_2;
+                // $row[] = $datas->foto_3;
+                // $row[] = (float)$datas->latitude;
+                // $row[] = (float)$datas->longitude;
+                // $row[] = $datas->status;
+                // $row[] = $datas->jarak;
+                // $data[] = $row;
+            }
+            // echo json_encode($row,);
         } else {
             $data = "please input data user latitude and longitude ";
         }
@@ -70,12 +107,13 @@ class list_agen extends MX_Controller
                 "data" => $data
             )
         );
+        // echo json_encode($data);
     }
 
     public function get_lat_long()
     {
         $address = $this->input->post('address');
-        $geocode = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$address.'&key=AIzaSyCfY9TPZ31i6nu-oTLQWjuHaIt5dbc86o4&sensor=false');
+        $geocode = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=AIzaSyCfY9TPZ31i6nu-oTLQWjuHaIt5dbc86o4&sensor=false');
         $output = json_decode($geocode);
         $lat = @$output->results[0]->geometry->location->lat;
         $lng = @$output->results[0]->geometry->location->lng;
