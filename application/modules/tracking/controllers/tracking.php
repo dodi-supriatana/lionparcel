@@ -27,9 +27,10 @@ class tracking extends MX_Controller
 
     public function get_tracking()
     {
+        $sst_no=$this->input->post('no_resi');
         $username = "lionparcel";
         $password = "lionparcel@123";
-        $remote_url = 'http://lpapi.cargoflash.com/v3/stt/track?q=11-18-612';
+        $remote_url = 'http://lpapi.cargoflash.com/v3/stt/track?q='.$sst_no;
 
         // Create a stream
         $opts = array(
