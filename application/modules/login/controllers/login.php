@@ -29,26 +29,40 @@ class login extends MX_Controller
     {
 
         // search data
-        $username=$this->input->post('username');
-        $password=$this->input->post('password');
-        $data = $this->db->query("SELECT * FROM m_user where username='".$username."' and password='".$password."'");
-        if ($data->num_rows() >0) {
-            $kirim=$data->result();
-        }else{
-            $kirim="User not found";
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $data = $this->db->query("SELECT * FROM m_user where username='" . $username . "' and password='" . $password . "'");
+
+        // print_r($data->num_rows());
+        // die();
+        if ($data->num_rows() > 0) {
+            foreach ($data->result() as $key) {
+                $is_active = $key->is_active;
+            }
+
+            if ($is_active == '1') {
+                $kirim = $data->result();
+                $message = 'active user';
+            } else {
+                $kirim = [];
+                $message = 'your mock-up license is expired, please contact yugo@cudocomm.com';
+            }
+        } else {
+            $kirim = [];
+            $message = 'Username and password do not match';
         }
         $this->djson(
             array(
                 "status" => "200",
+                'message' => $message,
                 "data" => $kirim
             )
         );
     }
 
 
-    public function searchagenbykota(){
-        
-    }
+    public function searchagenbykota()
+    { }
 
 
     public function searchbycoordinate($lat1 = '32.9697', $lon1 = '-96.80322')
