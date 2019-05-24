@@ -28,6 +28,19 @@ class tracking extends MX_Controller
     public function get_tracking()
     {
         $sst_no=$this->input->post('no_resi');
+        if (strpos($sst_no, '-') !== false) {
+            $sst_no=$this->input->post('no_resi');
+            // echo $sst_no;
+        }else{
+            $string = $this->input->post('no_resi');
+            $replacement = '-';
+            $new_string=substr_replace($string, $replacement, 2, 0);
+            $sst_no=substr_replace($new_string, $replacement, 5, 0);
+            // echo $sst_no;
+        }
+        // die();
+        
+        // die($new_string);
         $username = "lionparcel";
         $password = "lionparcel@123";
         $remote_url = 'http://lpapi.cargoflash.com/v3/stt/track?q='.$sst_no;
