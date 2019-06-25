@@ -83,7 +83,7 @@ $db['default'] = array(
 	// 'hostname' => 'localhost',
 	// 'username' => 'root',
 	// 'password' => '',
-	// 'database' => 'lion_parcel',
+	// 'database' => 'lionparcel',
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
