@@ -29,7 +29,7 @@ class provinsi extends MX_Controller
     {
 
         // search data
-        $data = $this->db->query("SELECT provinsi as name FROM wilayah GROUP BY provinsi")->result();
+        $data = $this->db->query("SELECT provinsi as value,provinsi as label FROM wilayah GROUP BY provinsi")->result();
         $this->djson(
             array(
                 "status" => "200",

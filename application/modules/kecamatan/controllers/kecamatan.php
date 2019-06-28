@@ -34,7 +34,7 @@ class kecamatan extends MX_Controller
         // print_r($kabkota);
         // die($kabkota[1]);
         // die($kabkota[1]);
-        $data = $this->db->query("SELECT kecamatan as nama_kecamatan FROM wilayah WHERE kab_kota='$kabkota[1]' and type='$kabkota[0]' GROUP BY  nama_kecamatan")->result();
+        $data = $this->db->query("SELECT kecamatan as value,kecamatan as label FROM wilayah WHERE kab_kota='$kabkota[1]' and type='$kabkota[0]' GROUP BY  label")->result();
         $this->djson(
             array(
                 "status" => "200",
