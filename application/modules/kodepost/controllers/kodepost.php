@@ -31,7 +31,7 @@ class kodepost extends MX_Controller
         // search data
         $kode=$this->input->post('kecamatan');
        
-        $data = $this->db->query("SELECT kode_pos FROM wilayah w WHERE kecamatan='$kode' GROUP BY kecamatan")->result();
+        $data = $this->db->query("SELECT kode_pos,3lc FROM wilayah w WHERE kecamatan='$kode' GROUP BY kecamatan")->result();
         $this->djson(
             array(
                 "status" => "200",
