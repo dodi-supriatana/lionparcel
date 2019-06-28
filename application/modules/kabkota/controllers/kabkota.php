@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class provinsi extends MX_Controller
+class kabkota extends MX_Controller
 {
 
     function __construct()
@@ -25,11 +25,11 @@ class provinsi extends MX_Controller
         $this->output->set_output($json);
     }
 
-    public function get_provinsi()
+    public function get_kabkota()
     {
 
         // search data
-        $data = $this->db->query("SELECT provinsi as name FROM wilayah GROUP BY provinsi")->result();
+        $data = $this->db->query("SELECT CONCAT(type,' ',kab_kota) as a FROM wilayah where provinsi='banten' GROUP BY a")->result();
         $this->djson(
             array(
                 "status" => "200",
