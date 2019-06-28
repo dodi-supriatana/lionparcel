@@ -35,7 +35,7 @@ class kabkota extends MX_Controller
         $this->djson(
             array(
                 "status" => "200",
-                "data" => $data
+                "data" => $data 
             )
         );
     }
