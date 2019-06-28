@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class kabkota extends MX_Controller
+class kecamatan extends MX_Controller
 {
 
     function __construct()
@@ -25,13 +25,16 @@ class kabkota extends MX_Controller
         $this->output->set_output($json);
     }
 
-    public function get_kabkota()
+    public function get_kecamatan()
     {
 
         // search data
-        $provinsi=$this->input->post('provinsi');
-       
-        $data = $this->db->query("SELECT CONCAT(w.type,' ',w.kab_kota) as kota FROM wilayah w WHERE provinsi='$provinsi'")->result();
+        $str=$this->input->post('kabkota');
+        $kabkota=explode(' ',$str,2);
+        // print_r($kabkota);
+        // die($kabkota[1]);
+        // die($kabkota[1]);
+        $data = $this->db->query("SELECT kecamatan as nama_kecamatan FROM wilayah WHERE kab_kota='$kabkota[1]' and type='$kabkota[0]' GROUP BY  nama_kecamatan")->result();
         $this->djson(
             array(
                 "status" => "200",
