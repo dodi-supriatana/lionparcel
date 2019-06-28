@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class promo extends MX_Controller
+class booking extends MX_Controller
 {
 
     function __construct()
@@ -25,12 +25,12 @@ class promo extends MX_Controller
         $this->output->set_output($json);
     }
 
-    public function get_promo()
+    public function get_booking()
     {
 
         // search data
-        $data = $this->db->query("SELECT p.highlight,s.base_url,s.assets_url,p.promo_image FROM promo p 
-                                LEFT JOIN setting s on p.setting_id=s.id
+        $data = $this->db->query("SELECT b.highlight,b.description,CONCAT(s.base_url,s.assets_url,b.image) as image FROM boarding b 
+                                LEFT JOIN setting s on s.id=b.setting_id
                                 WHERE `status`=1")->result();
         $this->djson(
             array(
