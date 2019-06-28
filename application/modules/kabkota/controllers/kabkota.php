@@ -29,7 +29,9 @@ class kabkota extends MX_Controller
     {
 
         // search data
-        $data = $this->db->query("SELECT CONCAT(type,' ',kab_kota) as a FROM wilayah where provinsi='banten' GROUP BY a")->result();
+        $provinsi=$this->input->post('provinsi');
+       
+        $data = $this->db->query("SELECT CONCAT(w.type,' ',w.kab_kota) as kota FROM wilayah w WHERE provinsi='$provinsi'")->result();
         $this->djson(
             array(
                 "status" => "200",
