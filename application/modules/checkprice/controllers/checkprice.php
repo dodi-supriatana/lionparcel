@@ -46,10 +46,13 @@ class checkprice extends MX_Controller
         WHERE
             rt.origin_3lc = '".$origin."' 
             AND rt.destination_3lc = '".$destinance."'")->result();
+
+        $competitor=$this->db->query('SELECT * FROM competitor WHERE origin_3lc="'.$origin.'" and destination_3lc="'.$destinance.'" ORDER BY price desc LIMIT 1')->result();
         $this->djson(
 			array(
 				"status"=>"200",
-				"data"=>$data
+                "data"=>$data,
+                "competitor"=>$competitor
 			)
 		);
     }
