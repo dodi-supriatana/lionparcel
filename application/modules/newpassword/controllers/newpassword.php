@@ -43,14 +43,14 @@ class newpassword extends MX_Controller
                 $this->djson(
                     array(
                         "status" => "200",
-                        "data" => "send email success"
+                        "messages" => "send email success"
                     )
                 );
             }else{
                 $this->djson(
                     array(
                         "status" => "200",
-                        "data" => "send email failed"
+                        "messages" => "send email failed"
                     )
                 );
             }
@@ -58,7 +58,6 @@ class newpassword extends MX_Controller
             $this->djson(
                 array(
                     "status" => "200",
-                    "data" => "",
                     "messages" => "email yang anda tidak ditemukan"
                 )
             );
