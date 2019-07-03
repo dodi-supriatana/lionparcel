@@ -45,7 +45,7 @@ class checkprice extends MX_Controller
             rate_tabel rt 
         WHERE
             rt.origin_3lc = '".$origin."' 
-            AND rt.destination_3lc = '".$destinance."'")->result();
+            AND rt.destination_3lc = '".$destinance."' ORDER BY final_price asc")->result();
 
         $competitor=$this->db->query("SELECT * FROM competitor WHERE origin_3lc='".$origin."' and destination_3lc='".$destinance."' and price !='' ORDER BY  company desc ,price desc")->result();
         $this->djson(
