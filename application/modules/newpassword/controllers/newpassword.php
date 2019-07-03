@@ -99,17 +99,19 @@ class newpassword extends MX_Controller
     {
         $config = array(
             'protocol' => 'smtp',
-            // 'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_host' => 'ssl://smtp.gmail.com',
             'smtp_port' => 465,
             'smtp_user' => 'tt.program.mail@gmail.com',
             'smtp_pass' => 'cudocudo',
             'mailtype' => 'html',
+            'smtp_timeout'=>'4',
             'charset' => 'iso-8859-1'
         );
 
-        $this->load->library('email', $config);
+        $this->load->library('email');
+        $this->email->initialize($config);
         $this->email->set_newline("\r\n");
-        $this->email->from('TT_notification@gmail.com', 'Lionparcel Registration');
+        $this->email->from('TT_notification@gmail.com', 'Lionparcel Reset Password');
         $this->email->to($email);
 
         $this->email->subject('Lionparcel Password Confirmation');
@@ -169,9 +171,9 @@ class newpassword extends MX_Controller
             <TR align=left>
             <TD style="FONT-SIZE: 16px; FONT-FAMILY: Roboto, RobotoDraft, Helvetica, Arial, sans-serif; COLOR: rgb(71,74,82); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 5px; MARGIN: 0px; LINE-HEIGHT: 26px; PADDING-RIGHT: 5px">
             <P>
-                <STRONG>Informasi Pendaftaran<SPAN>&nbsp;</SPAN><SPAN class=il>Agen Lion Parcel</SPAN>!</STRONG></P>
+                <STRONG>Kode Rahasia<SPAN>&nbsp;</SPAN><SPAN class=il></SPAN>!</STRONG></P>
             <P class=m_4385783509175607864p1><SPAN class=il>
-                Terima Kasih</SPAN><SPAN>&nbsp;</SPAN>sudah mendaftar menjadi salah satu bagian dari lion parcel<SPAN>&nbsp;</SPAN>.<br> Untuk melangkapi persyaratan pendaftaran mohon untuk melengkapi dokumen berikut :
+                '.$token.'</SPAN><SPAN>&nbsp;</SPAN>
             </P>
             </TD></TR>
             <TR>
