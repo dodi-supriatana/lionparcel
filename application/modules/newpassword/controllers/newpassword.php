@@ -92,7 +92,7 @@ class newpassword extends MX_Controller
     public function new(){
         $password=$this->input->post('newpassword');
         $email=$this->input->post('username');
-        $query=$this->db->query("UPDATE m_user set password=" . $password . " WHERE username='" . $email . "'");
+        $query=$this->db->query("UPDATE m_user set password='" . $password . "' WHERE username='" . $email . "'");
 
        if ($query) {
         $this->djson(

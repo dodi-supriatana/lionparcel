@@ -29,12 +29,12 @@ class booking extends MX_Controller
     {
 
         // get data Post
-        // 
-        $this->djson(
-            array(
-                "status" => "200",
-                "data" => $data
-            )
-        );
+        // generate images
+        // $this->djson(
+        //     array(
+        //         "status" => "200",
+        //         "data" => $data
+        //     )
+        // );
     }
 }
