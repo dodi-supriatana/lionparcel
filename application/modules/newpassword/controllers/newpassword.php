@@ -92,7 +92,25 @@ class newpassword extends MX_Controller
     public function newpassword(){
         $password=$this->input->post('newpassword');
         $email=$this->input->post('username');
-        $this->db->query("UPDATE m_user set password=" . $password . " WHERE username='" . $email . "'");
+        $query=$this->db->query("UPDATE m_user set password=" . $password . " WHERE username='" . $email . "'");
+
+       if ($query) {
+        $this->djson(
+            array(
+                "status" => "200",
+                "Messages" => "update success"
+            )
+        );
+       }else{
+        $this->djson(
+            array(
+                "status" => "200",
+                "Messages" => "update field"
+            )
+        );
+       }
+        
+
     }
 
     function send_email($email,$token)
