@@ -31,7 +31,8 @@ class history_stt extends MX_Controller
         // search data
         // $id_agen = $this->input->post('lot');
         $id = $this->input->post('user_id');
-        $data = $this->db->query("SELECT * FROM history_order where user_id=".$id)->result();
+        $data = $this->db->query("SELECT * FROM history_order where user_id='".$id."'")->result();
+
         $this->djson(
             array(
                 "status" => "200",
