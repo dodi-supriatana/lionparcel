@@ -122,7 +122,7 @@
 					<table>
 						<tr>
 							<td class="title">
-								<img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
+								<img src="<?php echo base_url('assets/logopanjangmerah.png') ?>" style="width:100%; max-width:300px;">
 							</td>
 
 							<td>
@@ -225,20 +225,12 @@
 		//to save the canvas image
 		function save_img(data) {
 			//ajax method.
-			$.ajax({
-					url: "<?php echo base_url('booking/save_jpg') ?> ",
-					method: "POST", //First change type to method here
-					data: data
-					// Second add quotes on the value.
-				},
-
-
-				function(res) {
-					//if the file saved properly, trigger a popup to the user.
-					// location.href = document.URL + 'output/' + res + '.jpg';
-
-				});
+			$.post('<?php echo base_url('assets/save_jpg.php') ?>', { data: data }, function (res) {
+				//if the file saved properly, trigger a popup to the user.
+				// location.href = document.URL + 'output/' + res + '.jpg';
+			});
 		}
+
 	</script>
 </body>
 

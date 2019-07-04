@@ -3,7 +3,7 @@
 //just a random name for the image file
 $random = rand(100, 1000);
 
-print_r($_POST['data'][1]);
+// print_r($_POST['data'][1]);
 //$_POST[data][1] has the base64 encrypted binary codes. 
 //convert the binary to image using file_put_contents
 // die($random."dasdasd");
