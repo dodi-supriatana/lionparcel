@@ -1,5 +1,6 @@
 <?php 
 
+
 //just a random name for the image file
 $random = rand(100, 1000);
 
@@ -11,8 +12,8 @@ $savefile = @file_put_contents("bukti/$random.jpg", base64_decode(explode(",", $
 
 //if the file saved properly, print the file name
 if($savefile){
-	echo $random;
+	return $_POST['data'];
 }else {
-	echo "error";
+	return "error";
 }
 ?>

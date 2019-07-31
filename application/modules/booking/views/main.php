@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -219,18 +220,19 @@
 
 			//then call a super hero php to save the image
 			save_img(data);
+			// console.log(data);
 		});
 		// };
 
 		//to save the canvas image
 		function save_img(data) {
-			//ajax method.
-			$.post('<?php echo base_url('assets/save_jpg.php') ?>', { data: data }, function (res) {
-				//if the file saved properly, trigger a popup to the user.
-				// location.href = document.URL + 'output/' + res + '.jpg';
-			});
-		}
+		// 	//ajax method.
+			// $.post('<?php echo base_url('assets/save_jpg.php') ?>', { data: data }, function (res) {});
+				$.post('<?php echo base_url('booking/get_booking') ?>', { data: data }, function (res) {});
 
+		}
+		// savefile = @file_put_contents("bukti/$random.jpg", base64_decode(explode(",", $_POST['data'])[1]));
+		// $savefile = @file_put_contents("bukti/a.jpg", base64_decode(explode(",", data)[1]));
 	</script>
 </body>
 
