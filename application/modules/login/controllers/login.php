@@ -13,6 +13,8 @@ class login extends MX_Controller
         //  $this->load->model('M_channel');
         // $this->load->model('MGmenu');
         // $this->load->model('mprojectlist');
+
+        $this->load->helper(['jwt', 'authorization']);
     }
 
     private function djson($value = array())
@@ -42,6 +44,13 @@ class login extends MX_Controller
 
             if ($is_active == '1') {
                 $kirim = $data->result();
+                $jwtPayload = [
+                    "username" => $kirim[0]->username,
+                    "id_user" => $kirim[0]->id_user
+                ];
+                $jwtPayload["timestamp"] = time();
+                $token = AUTHORIZATION::generateToken($jwtPayload);
+                $kirim[0]->tokenJwt = $token;
                 $message = 'active user';
             } else {
                 $kirim = [];
