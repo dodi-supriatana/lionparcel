@@ -27,6 +27,40 @@ class login extends MX_Controller
         $this->output->set_output($json);
     }
 
+    private function _send_email($to = 'taufiqpe@gmail.com', $subject = 'Taufiq Public Login', $message = 'Taufiq Public Message')
+    {
+        $config = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_user' => 'taufiqpublic@gmail.com', // email
+            'smtp_pass' => 'taufiqpublic0205', // password email
+            'smtp_port' => 465,
+            'mailtype'  => 'html',
+            'charset'   => 'utf-8',
+            'newline' => "\r\n" // pake tanda petik dua (")
+        ];
+
+        $this->load->library('email', $config);
+
+        $this->email->from('taufiqpublic@gmail.com', 'Taufiq Public');
+        $this->email->to($to);
+        // $this->email->cc('another@another-example.com');
+        // $this->email->bcc('them@their-example.com');
+
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+        if($this->email->send()){
+            return [
+                'to' => $to,
+                'subject' => $subject,
+                'message' => $message
+            ];
+        }else{
+            return false;
+        }
+    }
+
     public function get_login()
     {
 
@@ -34,7 +68,7 @@ class login extends MX_Controller
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         $data = $this->db->query("SELECT * FROM m_user where username='" . $username . "' and password='" . $password . "'");
-
+        $sendEmail;
         // print_r($data->num_rows());
         // die();
         if ($data->num_rows() > 0) {
@@ -52,17 +86,29 @@ class login extends MX_Controller
                 $token = AUTHORIZATION::generateToken($jwtPayload);
                 $kirim[0]->tokenJwt = $token;
                 $message = 'active user';
+
+                $send = $this->_send_email($kirim[0]->username, 'Notifikasi login', 'Anda berhasil login');
+                if(!$send){
+                    $sendEmail = false;
+                } else {
+                    $sendEmail = $send;                    
+                }
+
             } else {
+                $sendEmail = false;
                 $kirim = [];
                 $message = 'your mock-up license is expired, please contact yugo@cudocomm.com';
             }
         } else {
+            $sendEmail = false;
             $kirim = [];
             $message = 'Username and password do not match';
         }
+
         $this->djson(
             array(
                 "status" => "200",
+                'sending email' => $sendEmail,
                 'message' => $message,
                 "data" => $kirim
             )
