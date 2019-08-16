@@ -27,7 +27,6 @@ class provinsi extends MX_Controller
 
     public function get_provinsi()
     {
-
         // search data
         $data = $this->db->query("SELECT provinsi as value,provinsi as label FROM wilayah GROUP BY provinsi")->result();
         $this->djson(
