@@ -33,7 +33,7 @@ class registeragenuser extends MX_Controller
         $no_hp=$this->input->post('no_hp');
         $password=$this->input->post('password');
 
-        $query=$this->db->query("INSERT INTO m_user (username, password, no_hp,nama, id_level,images)VALUES ('".$email."', '".$password."','".$no_hp."','". $nama."','1','https://rehrealestate.com/wp-content/uploads/2015/08/facebook-default-no-profile-pic-girl.jpg')");
+        $query=$this->db->query("INSERT INTO m_user (username, password, no_hp,nama, id_level,images)VALUES ('".$email."', '".$password."','".$no_hp."','". $nama."','2','https://rehrealestate.com/wp-content/uploads/2015/08/facebook-default-no-profile-pic-girl.jpg')");
         if ($query) {
             $this->djson(
                 array(

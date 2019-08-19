@@ -15,7 +15,7 @@ class promo extends MX_Controller
         // $this->load->model('mprojectlist');
         // $this->load->helper(['jwt', 'authorization']);
     }
-    
+
     private function djson($value = array())
     {
         $json = json_encode($value);
@@ -25,21 +25,28 @@ class promo extends MX_Controller
         $this->output->set_content_type('application/json');
         $this->output->set_output($json);
     }
-    
+
     public function get_promo()
-    {   
-        $db = $this->db;
-        $headers = $this->input->request_headers();
-        // verify token
-        $auth = verifyToken($headers, $db);
-        if(!$auth["validToken"]){
-            return $this->djson($auth["res"]);
-        }
+    {
+        // $db = $this->db;
+        // $headers = $this->input->request_headers();
+        // // verify token
+        // $auth = verifyToken($headers, $db);
+        // if (!$auth["validToken"]) {
+        //     return $this->djson($auth["res"]);
+        // }
 
         // search data
-        $data = $this->db->query("SELECT p.highlight,s.base_url,s.assets_url,p.promo_image FROM promo p 
-                                LEFT JOIN setting s on p.setting_id=s.id
-                                WHERE `status`=1")->result();
+        $data = $this->db->query("SELECT
+        p.highlight,
+        CONCAT(s.base_url,
+        p.promo_image) as promo,
+        p.promo_image 
+    FROM
+        promo p
+        LEFT JOIN setting s ON p.setting_id = s.id 
+    WHERE
+        `status` =1")->result();
         $this->djson(
             array(
                 "status" => "200",
