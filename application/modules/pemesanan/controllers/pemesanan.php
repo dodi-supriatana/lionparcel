@@ -158,17 +158,20 @@ class pemesanan extends MX_Controller
     {
         $this->load->helper('url');
 
+        setlocale(LC_ALL, 'IND');
+        $date = strftime("%d %B %Y", strtotime($data['date']));
+
         $dataImage = [
             'stt_no' => $data['stt_no'],
             'product' => strtoupper($data['product']),
-            'date' => $data['date'],
-            'nama_agen' => ucwords($data['nama_agen']),
+            'date' => $date,
+            'nama_agen' => ucwords(strtolower($data['nama_agen'])),
             'alamat_agen' => ucwords($data['alamat_agen']),
-            'nama_pengirim' => ucwords($data['nama_pengirim']),
-            'alamat_pengirim' => ucwords($data['alamat_pengirim']),
+            'nama_pengirim' => ucwords(strtolower($data['nama_pengirim'])),
+            'alamat_pengirim' => ucwords(strtolower($data['alamat_pengirim'])),
             'nomor_pengirim' => $data['nomor_pengirim'],
-            'nama_penerima' => ucwords($data['nama_penerima']),
-            'alamat_penerima' => ucwords($data['alamat_penerima']),
+            'nama_penerima' => ucwords(strtolower($data['nama_penerima'])),
+            'alamat_penerima' => ucwords(strtolower($data['alamat_penerima'])),
             'nomor_penerima' => ucwords($data['nomor_penerima']),
             'panjang' => $data['panjang'],
             'lebar' => $data['lebar'],
