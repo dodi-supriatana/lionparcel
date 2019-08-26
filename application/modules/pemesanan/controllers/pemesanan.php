@@ -27,7 +27,7 @@ class pemesanan extends MX_Controller
         $this->output->set_output($json);
     }
 
-    private function rupiah($angka){
+    public function rupiah($angka){
 	
 		$hasil_rupiah = number_format($angka,2,',','.');
 		return $hasil_rupiah;
@@ -153,12 +153,10 @@ class pemesanan extends MX_Controller
             )
         );
     }
-
-    private function get_image_base64($data)
-    {
-        $this->load->helper('url');
-
-        $dataImage = [
+	
+	public function get_image_base64($data){
+		$this->load->helper('url');
+		 $dataImage = [
             'stt_no' => $data['stt_no'],
             'product' => strtoupper($data['product']),
             'date' => $data['date'],
@@ -176,8 +174,8 @@ class pemesanan extends MX_Controller
             'berat' => $data['berat'],
             'harga' => $data['harga']
         ];
-
-        $html = ' 
+		
+		 $html = ' 
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -436,15 +434,9 @@ class pemesanan extends MX_Controller
             </body>
             </html>
         ';
-
-        $css = <<<EOD
-        
-        EOD;
-
-        $google_fonts = "Roboto";
+		$google_fonts = "Roboto";
 
         $data = array('html'=>$html,
-                    'css'=>$css,
                     'google_fonts'=>$google_fonts);
 
         $ch = curl_init();
@@ -477,5 +469,6 @@ class pemesanan extends MX_Controller
         }
 
         return false;
-    }
+		
+	}
 }
