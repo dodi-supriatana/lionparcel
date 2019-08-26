@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 class HistoryOrder_model extends CI_Model
 {
     public function insert($table, $data)
