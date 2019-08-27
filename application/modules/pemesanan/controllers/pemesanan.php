@@ -422,7 +422,7 @@ class pemesanan extends MX_Controller
                         </div>
                         <div class="col col-7">
                             <p>Harga</p>
-                            <p>Rp. ' . $dataImage['harga'] . ',-</p>
+                            <p>Rp. ' ."Rp " . number_format( $dataImage['harga'],0,',','.') . ',-</p>
                         </div>
                     </div>
                     <div class="enam">
