@@ -380,12 +380,15 @@ class pemesanan extends MX_Controller
                             <p>Asal Pengirim</p>
                             <p>' . $dataImage['nama_pengirim'] . '</p>
                             <p> ' . $dataImage['alamat_pengirim'] . ' </p>
+                            <p> ' . $dataImage['nomor_pengirim'] . ' </p>
+                            
                             <div class="line"></div>
                         </div>
                         <div class="kanan">
                             <p>Tujuan Pengiriman</p>
                             <p>' . $dataImage['nama_penerima'] . '</p>
                             <p>' . $dataImage['alamat_penerima'] . '</p>
+                            <p>' . $dataImage['nomor_penerima'] . '</p>
                             <div class="line"></div>
                         </div>
                     </div>
