@@ -86,5 +86,18 @@ class autocomplate extends MX_Controller
         }
     }
 
+    public function get_autocomplate_address(){
+        $address = $this->input->post('address');
+
+		$geocode = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=AIzaSyBmtZNz9aMpD-tDGdjX_ZmvkdCLe8orp7U&sensor=false');
+		$output = json_decode($geocode);
+		print_r($output);
+		die();
+		$lat = @$output->results[0]->geometry->location->lat;
+		$lng = @$output->results[0]->geometry->location->lng;
+
+
+    }
+
    
 }
