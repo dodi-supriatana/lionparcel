@@ -114,18 +114,6 @@ class pemesanan_v2 extends MX_Controller
             'product'=>$product        
         ];
 
-
-        // print_r($dataInsert_header);
-        // die();
-        // $dataInsertTracking = [
-        //     'stt_no' => $sttNo,
-        //     'nama_pengirim' => $dataImage['nama_pengirim'],
-        //     'alamat_pengirim' => $dataImage['alamat_pengirim'],
-        //     'nama_penerima' => $dataImage['nama_penerima'],
-        //     'alamat_penerima' => $dataImage['alamat_penerima'],
-        //     'status' => 'PUP'
-        // ];
-
         $success = $this->db->insert('list_pickup_header', $dataInsert_header);
         
         // $this->HistoryOrder_model->insert('tracking', $dataInsertTracking);
