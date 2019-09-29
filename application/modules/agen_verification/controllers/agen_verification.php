@@ -38,24 +38,24 @@ class agen_verification extends MX_Controller
     {
         $this->load->helper('url');
         $this->load->model('HistoryOrder_model');
-        $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("img_base64")));
-        // rename file name with random number
-        $image_name = md5(uniqid(rand(), true));
-        $filename = $image_name . '.' . 'png';
-        // image uploading folder path
-        $path = "assets/uploaded_image/";
-        // image is bind and upload to respective folder
-        file_put_contents($path . $filename, $image);
+        // $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("img_base64")));
+        // // rename file name with random number
+        // $image_name = md5(uniqid(rand(), true));
+        // $filename = $image_name . '.' . 'png';
+        // // image uploading folder path
+        // $path = "assets/uploaded_image/";
+        // // image is bind and upload to respective folder
+        // file_put_contents($path . $filename, $image);
 
-        $sttNo = rand(88, 99) . '-18-' . rand(111, 999);
+        // $sttNo = rand(88, 99) . '-18-' . rand(111, 999);
 
         $id_book = $this->input->post('id_book');       
-        $id_user = $this->input->post('id_user', true);
-        $id_agent = strtoupper($this->input->post('id_agent', true));
-        $nama_agen = strtoupper($this->input->post('nama_agen', true));
+        // $id_user = $this->input->post('id_user', true);
+        // $id_agent = strtoupper($this->input->post('id_agent', true));
+        // $nama_agen = strtoupper($this->input->post('nama_agen', true));
         // $id_kurir="";
         // $nama_kurir="";
-        $status="1";
+        // $status="1";
         $flag_proccess="003";
         $status_barang="1";
         date_default_timezone_set('Asia/Jakarta');
@@ -63,83 +63,83 @@ class agen_verification extends MX_Controller
         $tgl= date("Y-m-d");
         $waktu=date("h:i:s");
        
-                $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("img_base64")));
-                // rename file name with random number
-                $image_name = md5(uniqid(rand(), true));
-                $filename = $image_name . '.' . 'png';
-                // image uploading folder path
-                $path = "assets/uploaded_image/";
-                // image is bind and upload to respective folder
-                file_put_contents($path . $filename, $image);
+        //         $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("img_base64")));
+        //         // rename file name with random number
+        //         $image_name = md5(uniqid(rand(), true));
+        //         $filename = $image_name . '.' . 'png';
+        //         // image uploading folder path
+        //         $path = "assets/uploaded_image/";
+        //         // image is bind and upload to respective folder
+        //         file_put_contents($path . $filename, $image);
 
-        $image = base_url('assets/uploaded_image/' . $filename);
+        // $image = base_url('assets/uploaded_image/' . $filename);
 
 
-        $receiver = $this->input->post('receiver');
-        $nomor_penerima=$this->input->post('nomor_penerima');
-        $destination = $this->input->post('destination');
-        $sender=$this->input->post('sender');
-        $nomor_pengirim=$this->input->post('nomor_pengirim');
+        // $receiver = $this->input->post('receiver');
+        // $nomor_penerima=$this->input->post('nomor_penerima');
+        // $destination = $this->input->post('destination');
+        // $sender=$this->input->post('sender');
+        // $nomor_pengirim=$this->input->post('nomor_pengirim');
         $origin=$this->input->post('origin');
         $berat=$this->input->post('berat');
         $dimensi_lebar=$this->input->post('dimensi_lebar');
         $dimensi_panjang=$this->input->post('dimensi_panjang');
         $dimensi_tinggi=$this->input->post('dimensi_tinggi');
-        $payment_metode=$this->input->post('payment_metode');
+        // $payment_metode=$this->input->post('payment_metode');
         $harga=$this->input->post('harga');
-        $picup_lat=$this->input->post('picup_lat');
-        $pickup_long=$this->input->post('pickup_long');
-        $product = $this->input->post('product');
-        $no_resi=$sttNo;
-        $resi_img=$image;
+        // $picup_lat=$this->input->post('picup_lat');
+        // $pickup_long=$this->input->post('pickup_long');
+        // $product = $this->input->post('product');
+        // $no_resi=$sttNo;
+        // $resi_img=$image;
 
-        $dataImage = [];
-        $dataImage['stt_no'] = $sttNo;
-        $dataImage['product'] = $product;
-        $dataImage['date'] = $date;
-        $dataImage['nama_agen'] = $nama_agen;
-        $dataImage['alamat_agen'] = "";
-        $dataImage['nama_penerima'] = $receiver;
-        $dataImage['alamat_penerima'] = $destination;
-        $dataImage['nomor_penerima'] = $nomor_penerima;
-        $dataImage['nama_pengirim'] = $sender;
-        $dataImage['alamat_pengirim'] = $origin;
-        $dataImage['nomor_pengirim'] = $this->input->post('nomor_pengirim');
-        $dataImage['panjang'] = $dimensi_panjang;
-        $dataImage['lebar'] = $dimensi_lebar;
-        $dataImage['tinggi'] = $dimensi_tinggi;
-        $dataImage['berat'] = $berat;
-        $dataImage['harga'] = $harga;
+        // $dataImage = [];
+        // $dataImage['stt_no'] = $sttNo;
+        // $dataImage['product'] = $product;
+        // $dataImage['date'] = $date;
+        // $dataImage['nama_agen'] = $nama_agen;
+        // $dataImage['alamat_agen'] = "";
+        // $dataImage['nama_penerima'] = $receiver;
+        // $dataImage['alamat_penerima'] = $destination;
+        // $dataImage['nomor_penerima'] = $nomor_penerima;
+        // $dataImage['nama_pengirim'] = $sender;
+        // $dataImage['alamat_pengirim'] = $origin;
+        // $dataImage['nomor_pengirim'] = $this->input->post('nomor_pengirim');
+        // $dataImage['panjang'] = $dimensi_panjang;
+        // $dataImage['lebar'] = $dimensi_lebar;
+        // $dataImage['tinggi'] = $dimensi_tinggi;
+        // $dataImage['berat'] = $berat;
+        // $dataImage['harga'] = $harga;
 
         $dataInsert_header =  [
-            'id_book'=>$id_book,
-            'id_user'=>$id_user,
-            'id_agent'=>$id_agent,
-            'nama_agen'=>$nama_agen,
+            // 'id_book'=>$id_book,
+            // 'id_user'=>$id_user,
+            // 'id_agent'=>$id_agent,
+            // 'nama_agen'=>$nama_agen,
             // 'id_kurir'=>$id_kurir,
             // 'nama_kurir'=>$nama_kurir,
-            'status'=>$status,
+            // 'status'=>$status,
             'flag_proccess'=>$flag_proccess,
-            'status_barang'=>$status_barang,
-            'date'=>$date,
-            'tgl'=>$tgl,
-            'waktu'=>$waktu,
-            'img_name'=>$image,
-            'receiver'=>$receiver,
-            'nomor_penerima'=>$nomor_penerima,
-            'destination'=>$destination,
-            'sender'=>$sender,
-            'nomor_pengirim'=>$nomor_pengirim,
-            'origin'=>$origin,
+            // 'status_barang'=>$status_barang,
+            // 'date'=>$date,
+            // 'tgl'=>$tgl,
+            // 'waktu'=>$waktu,
+            // 'img_name'=>$image,
+            // 'receiver'=>$receiver,
+            // 'nomor_penerima'=>$nomor_penerima,
+            // 'destination'=>$destination,
+            // 'sender'=>$sender,
+            // 'nomor_pengirim'=>$nomor_pengirim,
+            // 'origin'=>$origin,
             'berat'=>$berat,
             'dimensi_lebar'=>$dimensi_lebar,
             'dimensi_panjang'=>$dimensi_panjang,
             'dimensi_tinggi'=>$dimensi_tinggi,
-            'payment_metode'=>$payment_metode,
-            'harga'=>$harga,
-            'picup_lat'=>$picup_lat,
-            'pickup_long'=>$pickup_long,
-            'product'=>$product        
+            // 'payment_metode'=>$payment_metode,
+            'harga'=>$harga
+            // 'picup_lat'=>$picup_lat,
+            // 'pickup_long'=>$pickup_long,
+            // 'product'=>$product        
         ];
 
         // print_r($dataInsert_header);
@@ -150,19 +150,19 @@ class agen_verification extends MX_Controller
         $success = $this->db->insert('list_pickup_detail', $dataInsert_header);
 
         if($success){
-            $data = $this->get_image_base64($dataImage);
-            if(!$data){
-                return $this->djson(
-                    array(
-                        "status" => "500",
-                        "msg" => 'Error when generate image'
-                    )
-                );
-            }
+            // $data = $this->get_image_base64($dataImage);
+            // if(!$data){
+                // return $this->djson(
+                //     array(
+                //         "status" => "500",
+                //         "msg" => 'Error when generate image'
+                //     )
+                // );
+            // }
             return $this->djson(
                 array(
                     "status" => "200",
-                    "data" => $data
+                    "msg" => "Success"
                 )
             );
         }
