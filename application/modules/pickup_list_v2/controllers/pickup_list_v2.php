@@ -63,11 +63,12 @@ class pickup_list_v2 extends MX_Controller
 
     public function get_tracking(){
         $id=$this->input->post('id');
-        $id_booking=$this->input->post('id_booking');
+        $id_book=$this->input->post('id_book');
 
 
-        $header=$this->db->query("SELECT picup_lat,pickup_long,no_resi,resi_img,id_kurir,nama_kurir FROM list_pickup_header where id='".$id."'")->result();
-        $history_header=$this->db->query("SELECT picup_lat,pickup_long,id_kurir,no_resi,resi_img,nama_kurir FROM list_pickup_header WHERE id='".$id."'")->row();
+
+        $header=$this->db->query("SELECT picup_lat,pickup_long,no_resi,resi_img,id_kurir,nama_kurir FROM list_pickup_header where id_book='".$id_book."'")->result();
+        $history_header=$this->db->query("SELECT picup_lat,pickup_long,id_kurir,no_resi,resi_img,nama_kurir FROM list_pickup_header WHERE id_book='".$id_book."'")->row();
         $history_detail=$this->db->query("SELECT
         id,
             date AS tanggal,
@@ -82,7 +83,7 @@ class pickup_list_v2 extends MX_Controller
             FROM
                 list_pickup_detail 
         WHERE
-            id_book = '".$id_booking."'")->result();
+            id_book = '".$id_book."'")->result();
 
             $history=array('picup_lat'=>$history_header->picup_lat,'pickup_long'=>$history_header->pickup_long,'id_kurir'=>$history_header->id_kurir,'no_resi'=>$history_header->no_resi,'resi_img'=>$history_header->resi_img,'nama_kurir'=>$history_header->nama_kurir,'history_pesanan'=>$history_detail);
         
@@ -90,7 +91,7 @@ class pickup_list_v2 extends MX_Controller
         $this->djson(
             array(
                 "status" => "200",
-                "data"=>$header,
+                // "data"=>$header,
                 "history" => $history
             )
         );
