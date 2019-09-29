@@ -79,6 +79,8 @@ class pemesanan_v2 extends MX_Controller
         $picup_lat=$this->input->post('picup_lat');
         $pickup_long=$this->input->post('pickup_long');
         $product = $this->input->post('product');
+        $alamat_agen = $this->input->post('alamat_agen');
+
         // $no_resi=$this->input->post('no_resi');
         // $resi_img=$this->input->post('resi_img');
 
@@ -111,7 +113,8 @@ class pemesanan_v2 extends MX_Controller
             'harga'=>$harga,
             'picup_lat'=>$picup_lat,
             'pickup_long'=>$pickup_long,
-            'product'=>$product        
+            'product'=>$product,
+            'alamat_agen'=>$alamat_agen        
         ];
 
         $success = $this->db->insert('list_pickup_header', $dataInsert_header);
