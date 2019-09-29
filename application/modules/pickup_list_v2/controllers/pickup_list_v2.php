@@ -28,9 +28,30 @@ class pickup_list_v2 extends MX_Controller
     public function get_pickup_list()
     {
 
+
+        if (($this->input->post('user_id'))) {
+            $user_id=$this->input->post('user_id');
+            $where=" and id_user=".$user_id;
+        }else{
+            $where="";
+
+        }
+
+        // if (!empty($this->input->post('user_id'))) {
+        //     $where='';
+        // }
+        // if (!empty($this->input->post('user_id'))) {
+        //     $where='';
+        // }
+
+
         // search data
-        $data = $this->db->query("SELECT id,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination FROM list_pickup_header where flag_proccess='001' or flag_proccess='002' or flag_proccess='003' or flag_proccess='004'")->result();
-        $history = $this->db->query("SELECT id,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination FROM list_pickup_header where flag_proccess='005' or flag_proccess='006' or flag_proccess='007'")->result();
+        $data = $this->db->query("SELECT id,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination 
+                                  FROM list_pickup_header 
+                                  where (flag_proccess='001' or flag_proccess='002' or flag_proccess='003' or flag_proccess='004')".$where)->result();
+        $history = $this->db->query("SELECT id,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination 
+                                    FROM list_pickup_header 
+                                    where (flag_proccess='005' or flag_proccess='006' or flag_proccess='007')".$where)->result();
         $this->djson(
             array(
                 "status" => "200",
