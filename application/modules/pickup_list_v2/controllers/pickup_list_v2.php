@@ -46,10 +46,27 @@ class pickup_list_v2 extends MX_Controller
 
 
         // search data
-        $data = $this->db->query("SELECT id,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination 
+        $data = $this->db->query("SELECT 
+        CASE 
+              WHEN status=1  THEN 'Customer'
+              WHEN status=2  THEN 'On sales'
+              WHEN status=3  THEN 'On Call'
+              WHEN status=4  THEN 'At hock'
+
+              
+        END as order_by,
+        id,nama_agen,berat,dimensi_lebar,dimensi_panjang,dimensi_tinggi,harga as total,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination 
                                   FROM list_pickup_header 
                                   where (flag_proccess='001' or flag_proccess='002' or flag_proccess='003' or flag_proccess='004')".$where)->result();
-        $history = $this->db->query("SELECT id,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination 
+        $history = $this->db->query("SELECT 
+        CASE 
+              WHEN status=1  THEN 'Customer'
+              WHEN status=2  THEN 'On sales'
+              WHEN status=3  THEN 'On Call'
+              WHEN status=4  THEN 'At hock'
+
+              
+        END as order_by,id,nama_agen,berat,dimensi_lebar,dimensi_panjang,dimensi_tinggi,harga as total,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination 
                                     FROM list_pickup_header 
                                     where (flag_proccess='005' or flag_proccess='006' or flag_proccess='007')".$where)->result();
         $this->djson(
