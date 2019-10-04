@@ -103,6 +103,25 @@ class get_resi extends MX_Controller
                     )
                 );
             }
+            date_default_timezone_set('Asia/Jakarta');
+            $date = date("Y-m-d h:i:s");
+            $tgl= date("Y-m-d");
+            $waktu=date("h:i:s");
+            $insert_history =  [
+                'id_book'=>$id_book,
+                // 'id_kurir'=>$id_kurir,
+                // 'id_user'=>$id_user,
+                // 'nama_kurir'=>$nama_kurir,
+                // 'status'=>$status,
+                'flag_proccess'=>$flag_proccess,
+                'date'=>$date,
+                'tgl'=>$tgl,
+                'waktu'=>$waktu,
+                // 'picup_lat'=>$picup_lat,
+                // 'pickup_long'=>$pickup_long
+            ];
+            $success = $this->db->insert('list_pickup_detail', $insert_history);       
+
             return $this->djson(
                 array(
                     "status" => "200",

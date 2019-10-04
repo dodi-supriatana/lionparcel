@@ -147,9 +147,24 @@ class agen_verification extends MX_Controller
         
         $this->db->where('id_book', $id_book);
         $success = $this->db->update('list_pickup_header', $dataInsert_header);
-        $success = $this->db->insert('list_pickup_detail', $dataInsert_header);
+        // $success = $this->db->insert('list_pickup_detail', $dataInsert_header);
+
+        $insert_history =  [
+            'id_book'=>$id_book,
+            // 'id_kurir'=>$id_kurir,
+            // 'id_user'=>$id_user,
+            // 'nama_kurir'=>$nama_kurir,
+            // 'status'=>$status,
+            'flag_proccess'=>$flag_proccess,
+            'date'=>$date,
+            'tgl'=>$tgl,
+            'waktu'=>$waktu,
+            // 'picup_lat'=>$picup_lat,
+            // 'pickup_long'=>$pickup_long
+        ];
 
         if($success){
+            $success = $this->db->insert('list_pickup_detail', $insert_history);
             // $data = $this->get_image_base64($dataImage);
             // if(!$data){
                 // return $this->djson(

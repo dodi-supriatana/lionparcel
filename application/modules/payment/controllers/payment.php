@@ -47,6 +47,10 @@ class payment extends MX_Controller
         // $nama_kurir=$this->input->post('nama_kurir');
         // $status="1";
         $flag_proccess="004";
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date("Y-m-d h:i:s");
+        $tgl= date("Y-m-d");
+        $waktu=date("h:i:s");
 
         // date_default_timezone_set('Asia/Jakarta');
         // $date = date("Y-m-d h:i:s");
@@ -81,9 +85,22 @@ class payment extends MX_Controller
             $this->db->where('id_book', $id_book);
             $success= $this->db->update('list_pickup_header', $update);
          
+            $insert_history =  [
+                'id_book'=>$id_book,
+                // 'id_kurir'=>$id_kurir,
+                // 'id_user'=>$id_user,
+                // 'nama_kurir'=>$nama_kurir,
+                // 'status'=>$status,
+                'flag_proccess'=>$flag_proccess,
+                'date'=>$date,
+                'tgl'=>$tgl,
+                'waktu'=>$waktu,
+                // 'picup_lat'=>$picup_lat,
+                // 'pickup_long'=>$pickup_long
+            ];
         // $this->HistoryOrder_model->insert('tracking', $dataInsertTracking);
         if($success){
-            // $success = $this->db->insert('list_pickup_detail', $insert_history);       
+            $success = $this->db->insert('list_pickup_detail', $insert_history);       
             return $this->djson(
                 array(
                     "status" => "200",
