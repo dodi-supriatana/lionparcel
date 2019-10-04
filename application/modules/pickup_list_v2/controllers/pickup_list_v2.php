@@ -62,7 +62,7 @@ class pickup_list_v2 extends MX_Controller
               WHEN flag_proccess=004  THEN 'Pembayaran Telah Diterima'
               WHEN flag_proccess=005  THEN 'Done'
         END as flag_proccess_string,
-        status as order_by_id,
+        status as order_by_id,no_resi,
         id,nama_agen,berat,dimensi_lebar,dimensi_panjang,dimensi_tinggi,harga as total,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination 
                                   FROM list_pickup_header 
                                   where (flag_proccess='001' or flag_proccess='002' or flag_proccess='003' or flag_proccess='004')".$where)->result();
@@ -82,7 +82,7 @@ class pickup_list_v2 extends MX_Controller
               WHEN flag_proccess=004  THEN 'Pembayaran Telah Diterima'
               WHEN flag_proccess=005  THEN 'Done'
               
-        END as flag_proccess_string,
+        END as flag_proccess_string,no_resi,
         status as order_by_id,id,nama_agen,berat,dimensi_lebar,dimensi_panjang,dimensi_tinggi,harga as total,id_book as order_id,product,date,img_name,flag_proccess,sender,origin,receiver,destination 
                                     FROM list_pickup_header 
                                     where (flag_proccess='005' or flag_proccess='006' or flag_proccess='007')".$where)->result();
