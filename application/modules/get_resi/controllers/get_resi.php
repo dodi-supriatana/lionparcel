@@ -72,14 +72,29 @@ class get_resi extends MX_Controller
             'flag_proccess'=>'005',
             'no_resi'=>$sttNo
         ];
-        // $success = $this->db->insert('list_pickup_header', $dataInsert_header); harusnya update
-        
-        // $this->HistoryOrder_model->insert('tracking', $dataInsertTracking);
         $this->db->where('id_book', $id_book);
         $success= $this->db->update('list_pickup_header', $update);
         if($success){
             // $success = $this->db->insert('list_pickup_detail', $dataInsert_header);
             $data = $this->get_image_base64($dataImage);
+            $image_base64=$data['image_base64'];
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_base64));
+            // rename file name with random number
+            $image_name = md5(uniqid(rand(), true));
+            $filename = $image_name . 'RESI.' . 'png';
+            // image uploading folder path
+            $path = "assets/uploaded_image/";
+            // image is bind and upload to respective folder
+            file_put_contents($path . $filename, $image);
+            $image = base_url('assets/uploaded_image/' . $filename);
+
+            $update =  [
+                'resi_img'=>$image
+            ];
+            $this->db->where('id_book', $id_book);
+            $success= $this->db->update('list_pickup_header', $update);
+
+            // die();
             if(!$data){
                 return $this->djson(
                     array(
@@ -404,11 +419,11 @@ class get_resi extends MX_Controller
 
         curl_setopt($ch, CURLOPT_POST, 1);
         // Retrieve your user_id and api_key from https://htmlcsstoimage.com/dashboard
-        curl_setopt($ch, CURLOPT_USERPWD, "55a2cf3e-153e-4d05-8320-59c06d4f16bb" . ":" . "0777d194-1253-4af8-95e0-b7acddcae261");
+        curl_setopt($ch, CURLOPT_USERPWD, "c7d34f7f-e17a-4b8d-9654-52e8756921b6" . ":" . "6dbda856-8cac-463f-8cbc-8ba1f28aa83e");
 
-        $headers = array();
-        $headers[] = "Content-Type: application/x-www-form-urlencoded";
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        // $headers = array();
+        // $headers[] = "Content-Type: application/x-www-form-urlencoded";
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
