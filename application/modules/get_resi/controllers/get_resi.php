@@ -42,7 +42,7 @@ class get_resi extends MX_Controller
         $sttNo = rand(88, 99) . '-18-' . rand(111, 999);
         $book_detail=$this->db->query("SELECT * FROM list_pickup_header WHERE id_book='".$id_book."'")->row();
         $id_user = $this->input->post('id_user', true);
-        $flag_proccess="001";
+        $flag_proccess="005";
         $status_barang="1";
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d h:i:s");
