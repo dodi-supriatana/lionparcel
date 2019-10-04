@@ -164,7 +164,7 @@ class agen_verification extends MX_Controller
         ];
 
         if($success){
-            $success = $this->db->insert('list_pickup_detail', $insert_history);
+            $this->db->insert('list_pickup_detail', $insert_history);
             // $data = $this->get_image_base64($dataImage);
             // if(!$data){
                 // return $this->djson(

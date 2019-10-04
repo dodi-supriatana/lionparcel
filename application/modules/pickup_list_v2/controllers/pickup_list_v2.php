@@ -110,7 +110,7 @@ class pickup_list_v2 extends MX_Controller
                 
                 WHEN flag_proccess =001 THEN CONCAT('user Request Pickup with no pickup ', id_book ) 
                 WHEN flag_proccess =002 THEN CONCAT(nama_kurir,' has taken Pickup with no pickup ')
-                WHEN flag_proccess =003 THEN CONCAT(nama_kurir,' has verified')
+                WHEN flag_proccess =003 THEN CONCAT('Courier has verified')
                 WHEN flag_proccess =004 THEN CONCAT('user has payment')
                 WHEN flag_proccess =005 THEN CONCAT('Complate transaction')
                 ELSE '' 
