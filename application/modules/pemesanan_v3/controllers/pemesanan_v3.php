@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class pemesanan extends MX_Controller
+class pemesanan_v3 extends MX_Controller
 {
 
     function __construct()
@@ -27,137 +27,359 @@ class pemesanan extends MX_Controller
         $this->output->set_output($json);
     }
 
-    public function rupiah($angka){
-	
-		$hasil_rupiah = number_format($angka,2,',','.');
-		return $hasil_rupiah;
- 
+    public function rupiah($angka)
+    {
+
+        $hasil_rupiah = number_format($angka, 2, ',', '.');
+        return $hasil_rupiah;
     }
-    
-    
+
     public function pesanan()
     {
+    //     echo "kontol";
+    //     die();
         $this->load->helper('url');
-        $this->load->model('HistoryOrder_model');
-        $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("img_base64")));
-        // rename file name with random number
-        $image_name = md5(uniqid(rand(), true));
-        $filename = $image_name . '.' . 'png';
-        // image uploading folder path
-        $path = "assets/uploaded_image/";
-        // image is bind and upload to respective folder
-        file_put_contents($path . $filename, $image);
+        // $this->load->model('HistoryOrder_model');
+        $order_by = $this->input->post('order_by');
+        // die($status_barang);
+        // 1=Customer
+        // 2=Onsales(go Show)
+        // 3=On Call
+        // 4=At hock        
 
-        $sttNo = rand(88, 99) . '-18-' . rand(111, 999);
-        $product = strtoupper($this->input->post('product', true));
-        $image = base_url('assets/uploaded_image/' . $filename);
-        $namaAgen = strtoupper($this->input->post('nama_agen', true));
+
+        // Pasti di kirim
+        $id_user = $this->input->post('id_user', true);
+        $id_agent = strtoupper($this->input->post('id_agent', true));
+        $nama_agen = strtoupper($this->input->post('nama_agen', true));
+        $id_kurir = "";
+        $nama_kurir = "";
+        // $status = "1";
+
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d h:i:s");
-        $penerima = strtoupper($this->input->post('nama_penerima', true));
-        $alamat = strtoupper($this->input->post('alamat_penerima', true));
-        $userId = $this->input->post('user_id', true);
+        $tgl = date("Y-m-d");
+        $waktu = date("h:i:s");
 
-        $dataInsert =  [
-            'stt_no' => $sttNo,
-            'product' => $product,
-            'image' => $image,
-            'nama_agen' => $namaAgen,
-            'date' => $date,
-            'penerima' => $penerima,
-            'alamat' => $alamat,
-            'user_id' => $userId
-        ];
+        $receiver = $this->input->post('receiver');
+        $nomor_penerima = $this->input->post('nomor_penerima');
+        $destination = $this->input->post('destination');
+        $sender = $this->input->post('sender');
+        $nomor_pengirim = $this->input->post('nomor_pengirim');
+        $origin = $this->input->post('origin');
+        $berat = $this->input->post('berat');
+        $dimensi_lebar = $this->input->post('dimensi_lebar');
+        $dimensi_panjang = $this->input->post('dimensi_panjang');
+        $dimensi_tinggi = $this->input->post('dimensi_tinggi');
+        $payment_metode = $this->input->post('payment_metode');
+        $harga = $this->input->post('harga');
+        $picup_lat = $this->input->post('picup_lat');
+        $pickup_long = $this->input->post('pickup_long');
+        $product = $this->input->post('product');
+        $alamat_agen = $this->input->post('alamat_agen');
 
-        $dataImage = [];
-        $dataImage['stt_no'] = $dataInsert['stt_no'];
-        $dataImage['product'] = $dataInsert['product'];
-        $dataImage['date'] = $dataInsert['date'];
-        $dataImage['nama_agen'] = $dataInsert['nama_agen'];
-        $dataImage['alamat_agen'] = $this->input->post('alamat_agen');
-        $dataImage['nama_penerima'] = $dataInsert['penerima'];
-        $dataImage['alamat_penerima'] = $dataInsert['alamat'];
-        $dataImage['nomor_penerima'] = $this->input->post('nomor_penerima');
-        $dataImage['nama_pengirim'] = $this->input->post('nama_pengirim');
-        $dataImage['alamat_pengirim'] = $this->input->post('alamat_pengirim');
-        $dataImage['nomor_pengirim'] = $this->input->post('nomor_pengirim');
-        $dataImage['panjang'] = $this->input->post('panjang');
-        $dataImage['lebar'] = $this->input->post('lebar');
-        $dataImage['tinggi'] = $this->input->post('tinggi');
-        $dataImage['berat'] = $this->input->post('berat');
-        $dataImage['harga'] = $this->input->post('harga');
 
-        $dataInsertTracking = [
-            'stt_no' => $sttNo,
-            'nama_pengirim' => $dataImage['nama_pengirim'],
-            'alamat_pengirim' => $dataImage['alamat_pengirim'],
-            'nama_penerima' => $dataImage['nama_penerima'],
-            'alamat_penerima' => $dataImage['alamat_penerima'],
-            'status' => 'PUP'
-        ];
+        if ($order_by != 4) {
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("img_base64")));
+            // rename file name with random number
+            $image_name = md5(uniqid(rand(), true));
+            $filename = $image_name . '.' . 'png';
+            // image uploading folder path
+            $path = "assets/uploaded_image/";
+            // image is bind and upload to respective folder
+            file_put_contents($path . $filename, $image);
+            $image = base_url('assets/uploaded_image/' . $filename);
+        } else {
+            $image = "";
+        }
 
-        $success = $this->HistoryOrder_model->insert('history_order', $dataInsert);
-        $this->HistoryOrder_model->insert('tracking', $dataInsertTracking);
-        if($success){
-            $data = $this->get_image_base64($dataImage);
-            if(!$data){
+        if ($order_by == '1') { // 1=Customer 
+            $flag_proccess = "001";
+            // $sttNo = rand(88, 99) . '-18-' . rand(111, 999);
+            $id_book = 'BOOK' . rand(0, 1000) . rand(0, 999);
+            $dataInsert_header =  [
+                'id_book' => $id_book,
+                'id_user' => $id_user,
+                'id_agent' => $id_agent,
+                'nama_agen' => $nama_agen,
+                'id_kurir' => $id_kurir,
+                'nama_kurir' => $nama_kurir,
+                'status' => $order_by,
+                'flag_proccess' => $flag_proccess,
+                // 'order_by' => $order_by,
+                'date' => $date,
+                'tgl' => $tgl,
+                'waktu' => $waktu,
+                'img_name' => $image,
+                'receiver' => $receiver,
+                'nomor_penerima' => $nomor_penerima,
+                'destination' => $destination,
+                'sender' => $sender,
+                'nomor_pengirim' => $nomor_pengirim,
+                'origin' => $origin,
+                'berat' => $berat,
+                'dimensi_lebar' => $dimensi_lebar,
+                'dimensi_panjang' => $dimensi_panjang,
+                'dimensi_tinggi' => $dimensi_tinggi,
+                'payment_metode' => $payment_metode,
+                'harga' => $harga,
+                'picup_lat' => $picup_lat,
+                'pickup_long' => $pickup_long,
+                'product' => $product,
+                'alamat_agen' => $alamat_agen
+            ];
+            $success = $this->db->insert('list_pickup_header', $dataInsert_header);
+            
+            if ($success) {
+                $success = $this->db->insert('list_pickup_detail', $dataInsert_header);
+                return $this->djson(
+                    array(
+                        "status" => "200",
+                        "data" => "success booking"
+                    )
+                );
+            } else {
                 return $this->djson(
                     array(
                         "status" => "500",
-                        "msg" => 'Error when generate image'
+                        "msg" => "Some Error Occured. Please Try Again."
                     )
                 );
             }
-            return $this->djson(
-                array(
-                    "status" => "200",
-                    "data" => $data
-                )
-            );
-        }
-        else
-        {
-            return $this->djson(
-                array(
-                    "status" => "500",
-                    "msg" => "Some Error Occured. Please Try Again."
-                )
-            );
+        } elseif ($order_by == '2') { // 2=Onsales(go Show)
+            $flag_proccess = "005";
+            $sttNo = rand(88, 99) . '-18-' . rand(111, 999);
+            $id_book = 'BOOK' . rand(0, 1000) . rand(0, 999);
+            $dataImage = [];
+            $dataImage['stt_no'] = $sttNo;
+            $dataImage['product'] = $product;
+            $dataImage['date'] = $date;
+            $dataImage['nama_agen'] = $nama_agen;
+            $dataImage['alamat_agen'] = $alamat_agen;
+            $dataImage['nama_penerima'] = $receiver;
+            $dataImage['alamat_penerima'] = $destination;
+            $dataImage['nomor_penerima'] = $nomor_penerima;
+            $dataImage['nama_pengirim'] = $sender;
+            $dataImage['alamat_pengirim'] = $origin;
+            $dataImage['nomor_pengirim'] = $nomor_pengirim;
+            $dataImage['panjang'] = $dimensi_panjang;
+            $dataImage['lebar'] = $dimensi_lebar;
+            $dataImage['tinggi'] = $dimensi_tinggi;
+            $dataImage['berat'] = $berat;
+            $dataImage['harga'] = $harga;
+            $dataInsert_header =  [
+                'id_book' => $id_book,
+                'id_user' => $id_user,
+                'id_agent' => $id_agent,
+                'nama_agen' => $nama_agen,
+                'id_kurir' => $id_kurir,
+                'nama_kurir' => $nama_kurir,
+                'status' => $order_by,
+                'flag_proccess' => $flag_proccess,
+                // 'status_barang' => $order_by,
+                'date' => $date,
+                'tgl' => $tgl,
+                'waktu' => $waktu,
+                'img_name' => $image,
+                'receiver' => $receiver,
+                'nomor_penerima' => $nomor_penerima,
+                'destination' => $destination,
+                'sender' => $sender,
+                'nomor_pengirim' => $nomor_pengirim,
+                'origin' => $origin,
+                'berat' => $berat,
+                'dimensi_lebar' => $dimensi_lebar,
+                'dimensi_panjang' => $dimensi_panjang,
+                'dimensi_tinggi' => $dimensi_tinggi,
+                'payment_metode' => $payment_metode,
+                'harga' => $harga,
+                'picup_lat' => $picup_lat,
+                'pickup_long' => $pickup_long,
+                'product' => $product,
+                'alamat_agen' => $alamat_agen
+            ];
+            $success = $this->db->insert('list_pickup_header', $dataInsert_header);
+
+            if ($success) {
+                $data = $this->get_image_base64($dataImage);
+                $image_base64=$data['image_base64'];
+                $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image_base64));
+                // rename file name with random number
+                $image_name = md5(uniqid(rand(), true));
+                $filename = $image_name . 'RESI.' . 'png';
+                // image uploading folder path
+                $path = "assets/uploaded_image/";
+                // image is bind and upload to respective folder
+                file_put_contents($path . $filename, $image);
+                $image = base_url('assets/uploaded_image/' . $filename);
+    
+                $update =  [
+                    'resi_img'=>$image
+                ];
+                $this->db->where('id_book', $id_book);
+                $success= $this->db->update('list_pickup_header', $update);
+                $success = $this->db->insert('list_pickup_detail', $dataInsert_header);
+                if (!$data) {
+                    return $this->djson(
+                        array(
+                            "status" => "500",
+                            "msg" => 'Error when generate image'
+                        )
+                    );
+                }
+                return $this->djson(
+                    array(
+                        "status" => "200",
+                        "data" => $data
+                    )
+                );
+            } else {
+                return $this->djson(
+                    array(
+                        "status" => "500",
+                        "msg" => "Some Error Occured. Please Try Again."
+                    )
+                );
+            }
+        } elseif ($order_by == '3') { // 3=On Call
+            $flag_proccess = "001";
+            $id_book = 'BOOK' . rand(0, 1000) . rand(0, 999);
+            $dataInsert_header =  [
+                'id_book' => $id_book,
+                'id_user' => $id_user,
+                'id_agent' => $id_agent,
+                'nama_agen' => $nama_agen,
+                'id_kurir' => $id_kurir,
+                'nama_kurir' => $nama_kurir,
+                'status' => $order_by,
+                'flag_proccess' => $flag_proccess,
+                // 'status_barang' => $order_by,
+                'date' => $date,
+                'tgl' => $tgl,
+                'waktu' => $waktu,
+                'img_name' => $image,
+                'receiver' => $receiver,
+                'nomor_penerima' => $nomor_penerima,
+                'destination' => $destination,
+                'sender' => $sender,
+                'nomor_pengirim' => $nomor_pengirim,
+                'origin' => $origin,
+                'berat' => $berat,
+                'dimensi_lebar' => $dimensi_lebar,
+                'dimensi_panjang' => $dimensi_panjang,
+                'dimensi_tinggi' => $dimensi_tinggi,
+                'payment_metode' => $payment_metode,
+                'harga' => $harga,
+                'picup_lat' => $picup_lat,
+                'pickup_long' => $pickup_long,
+                'product' => $product,
+                'alamat_agen' => $alamat_agen
+            ];
+            $success = $this->db->insert('list_pickup_header', $dataInsert_header);
+
+            if ($success) {
+                $success = $this->db->insert('list_pickup_detail', $dataInsert_header);
+                return $this->djson(
+                    array(
+                        "status" => "200",
+                        "data" => "success booking"
+                    )
+                );
+            } else {
+                return $this->djson(
+                    array(
+                        "status" => "500",
+                        "msg" => "Some Error Occured. Please Try Again."
+                    )
+                );
+            }
+        } elseif ($order_by == '4') { // 4=At hock 
+            $flag_proccess = "005";
+            $sttNo = rand(88, 99) . '-18-' . rand(111, 999);
+            $id_book = 'BOOK' . rand(0, 1000) . rand(0, 999);
+            $dataImage = [];
+            $dataImage['stt_no'] = $sttNo;
+            $dataImage['product'] = $product;
+            $dataImage['date'] = $date;
+            $dataImage['nama_agen'] = $nama_agen;
+            $dataImage['alamat_agen'] = $alamat_agen;
+            $dataImage['nama_penerima'] = $receiver;
+            $dataImage['alamat_penerima'] = $destination;
+            $dataImage['nomor_penerima'] = $nomor_penerima;
+            $dataImage['nama_pengirim'] = $sender;
+            $dataImage['alamat_pengirim'] = $origin;
+            $dataImage['nomor_pengirim'] = $nomor_pengirim;
+            $dataImage['panjang'] = $dimensi_panjang;
+            $dataImage['lebar'] = $dimensi_lebar;
+            $dataImage['tinggi'] = $dimensi_tinggi;
+            $dataImage['berat'] = $berat;
+            $dataImage['harga'] = $harga;
+            $dataInsert_header =  [
+                'id_book' => $id_book,
+                'id_user' => $id_user,
+                'id_agent' => $id_agent,
+                'nama_agen' => $nama_agen,
+                'id_kurir' => $id_kurir,
+                'nama_kurir' => $nama_kurir,
+                'status' => $order_by,
+                'flag_proccess' => $flag_proccess,
+                // 'status_barang' => $order_by,
+                'date' => $date,
+                'tgl' => $tgl,
+                'waktu' => $waktu,
+                'img_name' => $image,
+                'receiver' => $receiver,
+                'nomor_penerima' => $nomor_penerima,
+                'destination' => $destination,
+                'sender' => $sender,
+                'nomor_pengirim' => $nomor_pengirim,
+                'origin' => $origin,
+                'berat' => $berat,
+                'dimensi_lebar' => $dimensi_lebar,
+                'dimensi_panjang' => $dimensi_panjang,
+                'dimensi_tinggi' => $dimensi_tinggi,
+                'payment_metode' => $payment_metode,
+                'harga' => $harga,
+                'picup_lat' => $picup_lat,
+                'pickup_long' => $pickup_long,
+                'product' => $product,
+                'alamat_agen' => $alamat_agen
+            ];
+            $success = $this->db->insert('list_pickup_header', $dataInsert_header);
+
+            if ($success) {
+                $data = $this->get_image_base64($dataImage);
+                $success = $this->db->insert('list_pickup_detail', $dataInsert_header);
+                if (!$data) {
+                    return $this->djson(
+                        array(
+                            "status" => "500",
+                            "msg" => 'Error when generate image'
+                        )
+                    );
+                }
+                return $this->djson(
+                    array(
+                        "status" => "200",
+                        "data" => $data
+                    )
+                );
+            } else {
+                return $this->djson(
+                    array(
+                        "status" => "500",
+                        "msg" => "Some Error Occured. Please Try Again."
+                    )
+                );
+            }
+            // athoc
         }
     }
 
-    public function tracking()
+    public function get_image_base64($data)
     {
-        $this->load->model('HistoryOrder_model');
-        $sttNo = $this->input->get('stt_no');
-        $data = $this->HistoryOrder_model->find('tracking', 'stt_no', $sttNo);
-        $data = [
-            'no_resi' => $data['stt_no'],
-            'sender_name' => $data['nama_pengirim'],
-            'receiver_name' => $data['nama_penerima'],
-            'origin' => $data['alamat_pengirim'],
-            'destination' => $data['alamat_penerima'],
-            'current_status' => $data['status'],
-            'history' => [
-                [
-                    'id' => '1',
-                    'title' => 'RECEIPT BY NANA (ADMIN). JAKARTA (CGK)',
-                    'description' => date('Y-m-d h:i:s')
-                ]
-            ]
-        ];
-
-        return $this->djson(
-            array(
-                "status" => "200",
-                "data" => $data
-            )
-        );
-    }
-	
-	public function get_image_base64($data){
-		$this->load->helper('url');
-		 $dataImage = [
+        $this->load->helper('url');
+        $dataImage = [
             'stt_no' => $data['stt_no'],
             'product' => strtoupper($data['product']),
             'date' => $data['date'],
@@ -175,8 +397,8 @@ class pemesanan extends MX_Controller
             'berat' => $data['berat'],
             'harga' => $data['harga']
         ];
-		
-		 $html = ' 
+
+        $html = ' 
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -403,7 +625,7 @@ class pemesanan extends MX_Controller
                         </div>
                         <div class="col col-2">
                             <p>Product</p>
-                            <p>' .$dataImage['product'] . '</p>
+                            <p>' . $dataImage['product'] . '</p>
                         </div>
                         <div class="col col-3">
                             <p>Panjang/cm</p>
@@ -423,7 +645,7 @@ class pemesanan extends MX_Controller
                         </div>
                         <div class="col col-7">
                             <p>Harga</p>
-                            <p>Rp. ' .number_format( $dataImage['harga'],0,',','.') . ',-</p>
+                            <p>Rp. ' . number_format($dataImage['harga'], 0, ',', '.') . ',-</p>
                         </div>
                     </div>
                     <div class="enam">
@@ -438,10 +660,12 @@ class pemesanan extends MX_Controller
             </body>
             </html>
         ';
-		$google_fonts = "Roboto";
+        $google_fonts = "Roboto";
 
-        $data = array('html'=>$html,
-                    'google_fonts'=>$google_fonts);
+        $data = array(
+            'html' => $html,
+            'google_fonts' => $google_fonts
+        );
 
         $ch = curl_init();
 
@@ -460,19 +684,18 @@ class pemesanan extends MX_Controller
 
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
-        echo 'Error:' . curl_error($ch);
+            echo 'Error:' . curl_error($ch);
         }
-        curl_close ($ch);
-        $res = json_decode($result,true);
+        curl_close($ch);
+        $res = json_decode($result, true);
         $url = $res['url'];
         $url .= '.png';
         $image = file_get_contents($url);
-        if ($image !== false){
-            $dataImage['image_base64'] = 'data:image/png;base64,'.base64_encode($image);
+        if ($image !== false) {
+            $dataImage['image_base64'] = 'data:image/png;base64,' . base64_encode($image);
             return $dataImage;
         }
 
         return false;
-		
-	}
+    }
 }
