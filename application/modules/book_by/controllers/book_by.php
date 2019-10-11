@@ -45,7 +45,7 @@ class book_by extends MX_Controller
         $id_book=$this->input->post('id_book');
         $id_kurir=$this->input->post('id_kurir');
         $nama_kurir=$this->input->post('nama_kurir');
-        $status="1";
+        // $status="1";
         $flag_proccess="002";
 
         date_default_timezone_set('Asia/Jakarta');
@@ -64,7 +64,7 @@ class book_by extends MX_Controller
             'id_book'=>$id_book,
             'id_kurir'=>$id_kurir,
             'nama_kurir'=>$nama_kurir,
-            'status'=>$status,
+            // 'status'=>$status,
             'flag_proccess'=>$flag_proccess
         ];
 
@@ -73,7 +73,7 @@ class book_by extends MX_Controller
             'id_kurir'=>$id_kurir,
             'id_user'=>$id_user,
             'nama_kurir'=>$nama_kurir,
-            'status'=>$status,
+            // 'status'=>$status,
             'flag_proccess'=>$flag_proccess,
             'date'=>$date,
             'tgl'=>$tgl,
