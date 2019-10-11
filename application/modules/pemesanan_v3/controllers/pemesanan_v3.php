@@ -168,7 +168,7 @@ class pemesanan_v3 extends MX_Controller
             $dataImage['berat'] = $berat;
             $dataImage['harga'] = $harga;
             $dataInsert_header =  [
-                'no_resi'=>$sttNo;
+                'no_resi'=>$sttNo,
                 'id_book' => $id_book,
                 'id_user' => $id_user,
                 'id_agent' => $id_agent,
