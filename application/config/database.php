@@ -80,11 +80,10 @@ $db['default'] = array(
 	// 'password' => 'D3v3l0p3r',
 	// 'database' => 'lionparcel',
 
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
+	'hostname' => '103.77.78.169',
+	'username' => 'Dodi',
+	'password' => 'albabi321',
 	'database' => 'lionparcel',
-
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
