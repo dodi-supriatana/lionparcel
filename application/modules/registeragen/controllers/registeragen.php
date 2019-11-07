@@ -29,34 +29,72 @@ class registeragen extends MX_Controller
     {
 
         // $this->input->post('nama_pendaftar');
-        $namapendaftar = $this->input->post('namapendaftar');
-        $namaagen = $this->input->post('namaagen');
-        $alamat = $this->input->post('alamat');
-        $provinsi = $this->input->post('provinsi');
-        $kota = $this->input->post('kota');
-        $kecamatan = $this->input->post('kecamatan');
-        $ktp = $this->input->post('ktp');
-        $kk = $this->input->post('kk');
-        $jamoperasional = $this->input->post('jamoperasional');
-        $selfie = $this->input->post('selfie');
+        $user_id = $this->input->post('user_id');
 
+        $data['namapendaftar'] = $this->input->post('nama_ktp');
+        $data['namaagen'] = $this->input->post('nama_agen');
+        $data['provinsi'] = $this->input->post('provinsi');
+        $data['kota'] = $this->input->post('kota');
+        $data['kecamatan'] = $this->input->post('kecamatan');
+        $data['alamat'] = $this->input->post('alamat');
+        $data['jamoperasional'] = $this->input->post('jam_operasi');
+        // $foto_ktp = $this->input->post('foto_ktp');
+        // $foto_kk = $this->input->post('foto_kk');
+        // $foto_selfie = $this->input->post('foto_selfie');
 
+        if ($this->input->post('foto_ktp')) {
+            // $img_base64 = $this->input->post('foto_ktp');
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("foto_ktp")));
+            // rename file name with random number
+            $image_name = md5(uniqid(rand(), true));
+            $filename = $image_name . '.' . 'png';
+            // image uploading folder path
+            $path = "assets/agen/";
+            // image is bind and upload to respective folder
+            file_put_contents($path . $filename, $image);
+            $image_base_url = base_url('assets/agen/' . $filename);
+            $data['ktp'] = $image_base_url;
+            // die($image_base_url);
+        }
+        if ($this->input->post('foto_kk')) {
+            // $img_base64 = $this->input->post('foto_ktp');
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("foto_kk")));
+            // rename file name with random number
+            $image_name = md5(uniqid(rand(), true));
+            $filename = $image_name . '.' . 'png';
+            // image uploading folder path
+            $path = "assets/agen/";
+            // image is bind and upload to respective folder
+            file_put_contents($path . $filename, $image);
+            $image_base_url = base_url('assets/agen/' . $filename);
+            $data['kk'] = $image_base_url;
+            // die($image_base_url);
+        }
+        if ($this->input->post('foto_selfie')) {
+            // $img_base64 = $this->input->post('foto_ktp');
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("foto_selfie")));
+            // rename file name with random number
+            $image_name = md5(uniqid(rand(), true));
+            $filename = $image_name . '.' . 'png';
+            // image uploading folder path
+            $path = "assets/agen/";
+            // image is bind and upload to respective folder
+            file_put_contents($path . $filename, $image);
+            $image_base_url = base_url('assets/agen/' . $filename);
+            $data['selfie'] = $image_base_url;
+            // die($image_base_url);
+        }
+        $data['status']="0";
 
-        $imgktp = $ktp; // Your data 'data:image/png;base64,AAAFBfj42Pj4';
-        $imgktp = str_replace('data:image/png;base64,', '', $imgktp);
-        $imgktp = str_replace(' ', '+', $imgktp);
-        $data = base64_decode($imgktp);
-        file_put_contents('/tmp/image.png', $data);
+        // insert into tbl agen
 
+    // echo json_encode($data);
+    // die();
+        $reg=$this->db->insert('register_agen', $data);
 
-        //$this->send_email_registrasion($email);
-
-
-        // $data = $this->db->query("SELECT w.3lc as id,CONCAT(w.kecamatan, ', ', w.type,'', w.kab_kota, ', ',w.provinsi) as name FROM wilayah w WHERE w.kecamatan like '" . $word . "%' GROUP BY kecamatan limit 10 ")->result();
         $this->djson(
             array(
                 "status" => "200"
-                // "data" => $dat   a
             )
         );
     }
