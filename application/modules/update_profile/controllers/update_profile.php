@@ -30,34 +30,46 @@ class update_profile extends MX_Controller
         $id_user = $this->input->post('id_user');
         if ($this->input->post('nama')) {
             $nama = $this->input->post('nama');
-            $data['nama']=$nama;
+            $data['nama'] = $nama;
         }
         if ($this->input->post('password')) {
             $password = $this->input->post('password');
-            $data['password']=$password;
-            
+            $data['password'] = $password;
         }
-
+        if ($this->input->post('img_base64')) {
+            $img_base64 = $this->input->post('img_base64');
+            $image = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $this->input->post("img_base64")));
+            // rename file name with random number
+            $image_name = md5(uniqid(rand(), true));
+            $filename = $image_name . '.' . 'png';
+            // image uploading folder path
+            $path = "assets/profile/";
+            // image is bind and upload to respective folder
+            file_put_contents($path . $filename, $image);
+            $image_base_url = base_url('assets/profile/' . $filename);
+            $data['images'] = $image_base_url;
+            // die($image_base_url);
+        }
         $this->db->where('id_user', $id_user);
-       $update= $this->db->update('m_user', $data);
+        $update = $this->db->update('m_user', $data);
 
 
         // send email + code
 
         if ($update) {
-                $this->djson(
-                    array(
-                        "status" => "200",
-                        "messages" => "update success"
-                    )
-                );
-            } else {
-                $this->djson(
-                    array(
-                        "status" => "200",
-                        "messages" => "update failed"
-                    )
-                );
-            }
+            $this->djson(
+                array(
+                    "status" => "200",
+                    "messages" => "update success"
+                )
+            );
+        } else {
+            $this->djson(
+                array(
+                    "status" => "200",
+                    "messages" => "update failed"
+                )
+            );
         }
+    }
 }
