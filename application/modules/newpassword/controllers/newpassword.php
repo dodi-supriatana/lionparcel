@@ -36,7 +36,8 @@ class newpassword extends MX_Controller
         // send email + code
 
         if (!empty($cek_user)) {
-            $token = $cek_user->id_user . $cek_user->id_level.date('m'.'s');
+            $token = substr($cek_user->id_user,0,1) . $cek_user->id_level.date('m'.'s');
+            // die($token);
             $this->db->query(" UPDATE m_user set token='" . $token . "' WHERE username='" . $email . "'");
             $send_email=$this->send_email($email,$token);
             if ($send_email) {
