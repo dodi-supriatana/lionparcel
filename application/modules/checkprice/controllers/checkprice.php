@@ -40,7 +40,7 @@ class checkprice extends MX_Controller
             rt.destination_city AS ke,
             rt.product,
             date_format(created_date,' %d %M %Y')  as last_update,
-            total * ".$weight."  as final_price
+            total  as final_price
         FROM
             rate_tabel rt 
         WHERE
