@@ -30,6 +30,7 @@ class give_rate extends MX_Controller
         $id_user = $this->input->post('id_user');
         $rate=$this->input->post('rate');
         $id_agen=$this->input->post('id_agen');
+        $komentar=$this->input->post('komentar');
 
         
         // cek user
@@ -39,7 +40,8 @@ class give_rate extends MX_Controller
             $data_insert = array(
                 'id_agent' => $id_agen,
                 'bintang' => $rate,
-                'id_user' => $id_user
+                'id_user' => $id_user,
+                'komentar' =>$komentar
             );
 
             $history=$this->db->insert('history_reting_agen', $data_insert);

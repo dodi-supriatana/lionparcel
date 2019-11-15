@@ -35,11 +35,13 @@ class cek_reating extends MX_Controller
         // cek user
         $cek_user=$this->db->query("SELECT count(*) as total  FROM history_reting_agen WHERE id_agent='".$id_agen."' and id_user='".$id_user."'")->row();
         
+        $cek_agen_rate=$this->db->query("SELECT rate  FROM tabel_agen WHERE id_agent='".$id_agen."'")->row();
         if ($cek_user->total == 0) {
             $this->djson(
                 array(
                     "status" => "200",
                     "flag"=>0,
+                    "rate"=>$cek_agen_rate->rate,
                     "messages" => "You can gave a rating"
                 )
             );
@@ -48,6 +50,7 @@ class cek_reating extends MX_Controller
                 array(
                     "status" => "200",
                     "flag"=>1,
+                    "rate"=>$cek_agen_rate->rate,
                     "messages" => "You once gave a rating"
                 )
             );
